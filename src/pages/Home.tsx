@@ -26,6 +26,9 @@ import type { SidebarFooterProps } from '@toolpad/core/DashboardLayout';
 import type { AccountPreviewProps } from '@toolpad/core/Account';
 import type { Navigation, Router, Session } from '@toolpad/core/AppProvider';
 import { DemoProvider } from '@toolpad/core/internal';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import DashboardPage from '../components/DashboardPage';
+import OrdersPage from '../components/OrdersPage';
 
 const NAVIGATION: Navigation = [
   {
@@ -33,12 +36,12 @@ const NAVIGATION: Navigation = [
     title: 'Manage Your Bots',
   },
   {
-    segment: 'dashboard',
+    segment: 'home/dashboard',
     title: 'Create Bot',
     icon: <DashboardIcon />,
   },
   {
-    segment: 'orders',
+    segment: 'home/orders',
     title: 'Manage Bots',
     icon: <ShoppingCartIcon />,
   },
@@ -240,17 +243,23 @@ const demoSession = {
 };
 
 export default function Home(props: DemoProps) {
-  const { window } = props;
+    const { window } = props;
+    const location = useLocation();
+    const navigateRR = useNavigate();
 
-  const [pathname, setPathname] = React.useState('/dashboard');
-
-  const router = React.useMemo<Router>(() => {
+    const router = React.useMemo<Router>(() => {
     return {
-      pathname,
-      searchParams: new URLSearchParams(),
-      navigate: (path) => setPathname(String(path)),
+        pathname: location.pathname,
+        searchParams: new URLSearchParams(location.search),
+        navigate: (url) => {
+        if (typeof url === "string") {
+            navigateRR(url);
+        } else {
+            navigateRR(url.toString());
+        }
+        },
     };
-  }, [pathname]);
+    }, [location, navigateRR]);
 
   // Remove this const when copying and pasting into your project.
   const demoWindow = window !== undefined ? window() : undefined;
@@ -268,8 +277,6 @@ export default function Home(props: DemoProps) {
   }, []);
 
   return (
-    // Remove this provider when copying and pasting into your project.
-    // <DemoProvider window={demoWindow}>
       <AppProvider
         navigation={NAVIGATION}
         router={router}
@@ -282,17 +289,17 @@ export default function Home(props: DemoProps) {
             // logo: <DashboardIcon />,
         }}
       >
-        {/* preview-start */}
         <DashboardLayout
           slots={{
             toolbarActions: CustomToolbarActions,
             sidebarFooter: SidebarFooterAccount,
           }}
         >
-          <DemoPageContent pathname={pathname} />
+            <Routes>
+                <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="orders" element={<OrdersPage />} />
+            </Routes>
         </DashboardLayout>
-        {/* preview-end */}
       </AppProvider>
-    // </DemoProvider>
   );
 }
