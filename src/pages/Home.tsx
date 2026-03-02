@@ -29,6 +29,8 @@ import { DemoProvider } from '@toolpad/core/internal';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import DashboardPage from '../components/DashboardPage';
 import OrdersPage from '../components/OrdersPage';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 const NAVIGATION: Navigation = [
   {
@@ -36,14 +38,14 @@ const NAVIGATION: Navigation = [
     title: 'Manage Your Bots',
   },
   {
-    segment: 'home/dashboard',
+    segment: 'home/createbot',
     title: 'Create Bot',
-    icon: <DashboardIcon />,
+    icon: <AddCircleIcon />,
   },
   {
-    segment: 'home/orders',
+    segment: 'home/managebots',
     title: 'Manage Bots',
-    icon: <ShoppingCartIcon />,
+    icon: <SettingsApplicationsIcon />,
   },
 ];
 
@@ -296,8 +298,8 @@ export default function Home(props: DemoProps) {
           }}
         >
             <Routes>
-                <Route path="dashboard" element={<DashboardPage />} />
-                <Route path="orders" element={<OrdersPage />} />
+                <Route path="createbot" element={<DashboardPage />} />
+                <Route path="managebots" element={<OrdersPage />} />
             </Routes>
         </DashboardLayout>
       </AppProvider>
