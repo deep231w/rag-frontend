@@ -30,16 +30,16 @@ import { DemoProvider } from '@toolpad/core/internal';
 const NAVIGATION: Navigation = [
   {
     kind: 'header',
-    title: 'Main items',
+    title: 'Manage Your Bots',
   },
   {
     segment: 'dashboard',
-    title: 'Dashboard',
+    title: 'Create Bot',
     icon: <DashboardIcon />,
   },
   {
     segment: 'orders',
-    title: 'Orders',
+    title: 'Manage Bots',
     icon: <ShoppingCartIcon />,
   },
 ];
@@ -79,7 +79,8 @@ function DemoPageContent({ pathname }: { pathname: string }) {
         textAlign: 'center',
       }}
     >
-      <Typography>Dashboard content for {pathname}</Typography>
+      {/* <Typography>Dashboard content for {pathname}</Typography> */}
+      
     </Box>
   );
 }
@@ -268,7 +269,7 @@ export default function Home(props: DemoProps) {
 
   return (
     // Remove this provider when copying and pasting into your project.
-    <DemoProvider window={demoWindow}>
+    // <DemoProvider window={demoWindow}>
       <AppProvider
         navigation={NAVIGATION}
         router={router}
@@ -276,6 +277,10 @@ export default function Home(props: DemoProps) {
         window={demoWindow}
         authentication={authentication}
         session={session}
+        branding={{
+            title:"ChatBot SDK Manager",
+            // logo: <DashboardIcon />,
+        }}
       >
         {/* preview-start */}
         <DashboardLayout
@@ -288,6 +293,6 @@ export default function Home(props: DemoProps) {
         </DashboardLayout>
         {/* preview-end */}
       </AppProvider>
-    </DemoProvider>
+    // </DemoProvider>
   );
 }
