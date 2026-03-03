@@ -1,12 +1,18 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Snackbar, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
 
   const [botName , setBotName]=useState<string>("");
-
+  const [success, setSuccess]=useState<boolean>(false);
+  const [alert , setAlert]=useState({
+    message:String, 
+    servirity:String,
+    open:Boolean
+  })
+  
   async function createButton() {
     console.log("admin is = ", admin)
 
@@ -22,11 +28,31 @@ export default function DashboardPage() {
 
       console.log("bot create response- ", res);
 
+      if(res.status==200){
+        setSuccess(true)
+      }
     }catch(e){
       console.log("error in create bot= ", e);
     }
-    
+    finally{
+      setSuccess(false);
+    }
   }
+
+  function handleClose (){
+    setSuccess(false);
+  }
+
+  useEffect(() => {
+      if (success) {
+        const timer = setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+      }
+    }, [success]);
+
   return (
     <Box
       sx={{
@@ -64,6 +90,16 @@ export default function DashboardPage() {
         </Box>
         
       </Box>
+      {success && 
+        <Snackbar
+          open={success}
+          autoHideDuration={6000} 
+          onClose={handleClose}
+        >
+          <Alert
+
+          />
+        </Snackbar>}
     </Box>
   );
 }
