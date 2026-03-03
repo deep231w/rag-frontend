@@ -27,10 +27,10 @@ import type { AccountPreviewProps } from '@toolpad/core/Account';
 import type { Navigation, Router, Session } from '@toolpad/core/AppProvider';
 import { DemoProvider } from '@toolpad/core/internal';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import DashboardPage from '../components/CreateBot';
-import OrdersPage from '../components/OrdersPage';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import ManageBots from '../components/ManageBots';
+import CreateBot from '../components/CreateBot';
 
 const NAVIGATION: Navigation = [
   {
@@ -298,8 +298,8 @@ export default function Home(props: DemoProps) {
           }}
         >
             <Routes>
-                <Route path="createbot" element={<DashboardPage />} />
-                <Route path="managebots" element={<OrdersPage />} />
+                <Route path="createbot" element={<CreateBot />} />
+                <Route path="managebots" element={<ManageBots />} />
             </Routes>
         </DashboardLayout>
       </AppProvider>

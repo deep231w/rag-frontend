@@ -2,7 +2,7 @@ import { Alert, Box, Button, Snackbar, TextField, Typography, type AlertColor } 
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function DashboardPage() {
+export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
 
   const [botName , setBotName]=useState<string>("");
