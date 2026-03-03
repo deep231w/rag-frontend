@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -7,12 +7,16 @@ export default function DashboardPage() {
 
   const [botName , setBotName]=useState<string>("");
   const [success, setSuccess]=useState<boolean>(false);
-  const [alert , setAlert]=useState({
-    message:String, 
-    servirity:String,
-    open:Boolean
+  const [alert , setAlert]=useState<{
+    message:string,
+    servirity:AlertColor,
+    open:boolean
+  }>({
+    message:"", 
+    servirity:"info",
+    open:false
   })
-  
+
   async function createButton() {
     console.log("admin is = ", admin)
 
@@ -30,12 +34,11 @@ export default function DashboardPage() {
 
       if(res.status==200){
         setSuccess(true)
+        setAlert({open:true ,servirity:"success", message:"bot create"});
       }
     }catch(e){
       console.log("error in create bot= ", e);
-    }
-    finally{
-      setSuccess(false);
+      setAlert({open:true ,servirity:"error", message:"bot creation failed!!"});
     }
   }
 
@@ -92,13 +95,18 @@ export default function DashboardPage() {
       </Box>
       {success && 
         <Snackbar
-          open={success}
+          open={alert.open}
           autoHideDuration={6000} 
           onClose={handleClose}
         >
           <Alert
-
-          />
+                onClose={handleClose}
+                severity={alert.servirity}
+                variant="filled"
+                sx={{ width: '100%' }}
+          >
+            {alert.message}
+          </Alert>
         </Snackbar>}
     </Box>
   );
