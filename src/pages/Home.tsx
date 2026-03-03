@@ -27,7 +27,7 @@ import type { AccountPreviewProps } from '@toolpad/core/Account';
 import type { Navigation, Router, Session } from '@toolpad/core/AppProvider';
 import { DemoProvider } from '@toolpad/core/internal';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import DashboardPage from '../components/DashboardPage';
+import DashboardPage from '../components/CreateBot';
 import OrdersPage from '../components/OrdersPage';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
