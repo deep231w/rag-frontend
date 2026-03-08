@@ -1,6 +1,7 @@
-import { Alert, Box, Grid, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Button, Grid, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import CustomDrawer from "./CustomDrawer";
 
 export default function ManageBots(){
 
@@ -19,6 +20,10 @@ export default function ManageBots(){
         servirity:"info",
         open:false
       })
+
+      const [isDrawer , setIsDrawer]=useState<boolean>(false);
+      const [drawerContent , setDrawerContent]=useState<React.ReactNode>(null);
+
     
     async function fetchBots(){
         if(!admin){
@@ -59,6 +64,19 @@ export default function ManageBots(){
         setAlert({open:false ,servirity:"info", message:""});
     }
 
+    //on bot click
+    function BotCLick(bot:any) {
+        console.log("bot clicked -" ,bot)
+        setIsDrawer(true);
+        setDrawerContent(
+            <CustomDrawer
+                bot={bot}
+                onClose={()=>setDrawerContent(null)}
+            />
+        )
+        
+    }
+
     return(
         <Box 
             sx={{
@@ -78,13 +96,20 @@ export default function ManageBots(){
                 <Grid container spacing={3}>
                     {bots.length>=1 ? (bots.map((bot)=>(
                         <Grid key={bot.id} size={{xs:12 , sm:6 , md:4}} >
-                            <Paper sx={{p:3}}>
-                                <Typography
-                                    variant="h6"
-                                >
-                                    {bot.botName}
-                                </Typography>
-                            </Paper>
+                            <Button
+                                fullWidth
+                                onClick={()=>BotCLick(bot)}
+                            >
+                                <Paper sx={{p:3 ,width:"100%"}}>
+
+                                    <Typography
+                                        variant="h6"
+                                    >
+                                        {bot.botName}
+                                    </Typography>
+                                </Paper>
+                            </Button>
+                            
                         </Grid>
                     ))):(
                         <Box
@@ -99,6 +124,7 @@ export default function ManageBots(){
                     )}
                 </Grid>
             </Box>
+            {drawerContent}
             {alert.open && 
                     <Snackbar
                       open={alert.open}
