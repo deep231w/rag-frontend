@@ -1,10 +1,24 @@
-import { Box, Button, Drawer, Input, Paper, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-
+import { Box, Button, Drawer, IconButton, Input, InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import { useRef, useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}){
 
     console.log("bot in custom Drawer - ", bot)
     const [files , setFiles]=useState(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [file , setFile]=useState<File | null>(null);
+
+    
+    const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = event.target.files?.[0];
+            if (selectedFile) {
+                setFile(selectedFile);
+                console.log("selected file is - ", selectedFile);
+            }
+    };
+
+
+
 
     return(
         <Drawer anchor="right" open onClose={onClose}>
@@ -23,15 +37,39 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
                     
                 >
                     <TextField
-                        label="File name"
                         disabled
                         variant="outlined"
                         size="small"  
                         fullWidth  
+                        value={file?.name || "Not Selected"}
+                        slotProps={{
+                            input:{
+                                readOnly:true,
+                                endAdornment:file && (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            size="small"
+                                            onClick={()=>setFile(null)}
+                                        >
+                                            <CloseIcon
+                                                fontSize="small"
+                                            />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }
+                        }}
+                    />
+                    <input
+                        type="file"
+                        hidden
+                        ref={fileInputRef}
+                        onChange={handleFileSelect}
                     />
                     <Button
                         variant="contained"
                         color="primary"
+                        onClick={()=>fileInputRef.current?.click()}
                     >
                         Select
                     </Button>
