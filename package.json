@@ -16,6 +16,7 @@
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
     "@toolpad/core": "^0.16.0",
+    "@uploadthing/react": "^7.3.3",
     "axios": "^1.13.6",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
