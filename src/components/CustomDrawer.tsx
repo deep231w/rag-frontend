@@ -83,11 +83,13 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
                         disabled={!file || isUploading}
                         onClick={async () => {
                             if (!file) return;
+                            console.log("start upload=" ,startUpload)
 
-                            await startUpload([file], {
-                            adminId: bot.adminId,
-                            botId: bot.id,
+                            const res= await startUpload([file], {
+                                adminId: bot.adminId,
+                                botId: bot.id,
                             });
+                            console.log("res upload- ", res)
 
                             setFile(null);
                         }}
