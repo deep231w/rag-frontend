@@ -36,6 +36,10 @@ export default function ManageBots(){
             const response= await axios.get(`${import.meta.env.VITE_API_URL}/bot/getbotsdata`,{
                 params:{
                     adminId:admin.userId
+                },
+                  headers: {
+                    "ngrok-skip-browser-warning": "true",
+                    "Accept": "application/json"
                 }
             })
 

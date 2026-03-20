@@ -1,6 +1,7 @@
 import { Box, Button, Drawer, IconButton, Input, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
+import { useUploadThing } from "./UploadFileBtn";
 export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}){
 
     console.log("bot in custom Drawer - ", bot)
@@ -8,6 +9,8 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [file , setFile]=useState<File | null>(null);
 
+    //uploadthing setup 
+    const { startUpload, isUploading } = useUploadThing("pdfUploader");
     
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0];
@@ -62,6 +65,7 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
                     />
                     <input
                         type="file"
+                        accept="application/pdf"
                         hidden
                         ref={fileInputRef}
                         onChange={handleFileSelect}
@@ -76,8 +80,19 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
                     <Button
                         variant="contained"
                         color="secondary"
+                        disabled={!file || isUploading}
+                        onClick={async () => {
+                            if (!file) return;
+
+                            await startUpload([file], {
+                            adminId: bot.adminId,
+                            botId: bot.id,
+                            });
+
+                            setFile(null);
+                        }}
                     >
-                        Upload
+                        {isUploading? "uploading":"upload"}
                     </Button>
                 </Box>
 
