@@ -10,7 +10,14 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
     const [file , setFile]=useState<File | null>(null);
 
     //uploadthing setup 
-    const { startUpload, isUploading } = useUploadThing("pdfUploader");
+    const { startUpload, isUploading } = useUploadThing("pdfUploader",{
+        onUploadError(e){
+            console.log("error in upload error =", e);
+        },
+        onUploadBegin(fileName) {
+          console.log("upload started file name -", fileName);  
+        },
+    });
     
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0];
