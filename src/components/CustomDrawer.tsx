@@ -1,14 +1,26 @@
 import { Box, Button, Drawer, IconButton, Input, InputAdornment, Paper, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useUploadThing } from "./UploadFileBtn";
+
+type FileType = {
+    id: string;
+    fileName: string;
+    url: string;
+};
+
 export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}){
 
     console.log("bot in custom Drawer - ", bot)
-    const [files , setFiles]=useState(null);
+    const [files , setFiles]=useState<FileType[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [file , setFile]=useState<File | null>(null);
 
+    useEffect(()=>{
+        if(!bot?.files) return;
+
+        setFiles([...bot.files]);
+    },[bot])
     //uploadthing setup 
     const { startUpload, isUploading } = useUploadThing("pdfUploader",{
         onUploadError(e){
@@ -120,8 +132,25 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
                     </Typography>
                     <Box sx={{display:"flex" , flexDirection:"column"}}>
                         {/* input boxex in column */}
-                        {files ? (<Box>
-                               
+                        {files.length >=1? (<Box>
+                               {files.map((f)=>(
+                                <Box 
+                                    sx={{
+                                            display:"flex" , 
+                                            flexDirection:"row" ,
+                                            justifyContent:"space-between" ,
+                                            alignItems:"center",
+                                            border:"1px solid gray",
+                                            borderRadius:"10px",
+                                            p:"5px"
+                                        }} 
+                                    key={f.id}
+                                >
+                                    <Typography>{f.fileName}</Typography>
+                                    <Button variant="contained" color="secondary">VIEW</Button>
+                                    <Button variant="contained">REMOVE</Button>
+                                </Box>
+                               ))}
                         </Box>):
                         (<Box sx={{display:"flex" , justifyContent:"center"}}>
                             <Typography sx={{textAlign:"center" }} variant="h6">No Files Available!</Typography>

@@ -8,7 +8,12 @@ export default function ManageBots(){
     const admin= JSON.parse(localStorage.getItem("admin") || "null");
 
     const [bots , setBots]=useState<
-        { id: string; adminId: string; botName: string }[]
+        { 
+            id: string; 
+            adminId: string; 
+            botName: string;
+            files:[]
+        }[]
     >([]);
 
       const [alert , setAlert]=useState<{
@@ -47,7 +52,12 @@ export default function ManageBots(){
             const botsdata=response.data.bots.map((bot:any)=>({
                 id:bot._id,
                 adminId:bot.adminId,
-                botName:bot.name
+                botName:bot.name,
+                files:bot.files.map((f:any)=>({
+                    id:f._id,
+                    fileName:f.name,
+                    url:f.url
+                }))
             })); 
             setBots(botsdata);
 
