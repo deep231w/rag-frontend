@@ -167,7 +167,7 @@ export default function CustomDrawer(
                                         onClick={()=>{
                                             // setPdfForView(f)
                                             setPdfFile(f)
-                                            isOpenPdf
+                                            isOpenPdf()
                                         }}
 
                                     >
