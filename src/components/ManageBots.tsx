@@ -2,6 +2,7 @@ import { Alert, Box, Button, Grid, Paper, Snackbar, Typography, type AlertColor 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CustomDrawer from "./CustomDrawer";
+import { PdfViewer } from "./PdfViewer";
 
 export default function ManageBots(){
 
@@ -29,6 +30,11 @@ export default function ManageBots(){
       const [isDrawer , setIsDrawer]=useState<boolean>(false);
       const [drawerContent , setDrawerContent]=useState<React.ReactNode>(null);
 
+      //pdf viewer 
+      const [isPdfViewerOpen  , setIsPdfViewerOpen]=useState(false);
+      const [viewFile, setViewFile]=useState();
+      const [PdfForView , setPdfForView]=useState<any>();
+      
     
     async function fetchBots(){
         if(!admin){
@@ -78,6 +84,10 @@ export default function ManageBots(){
         setAlert({open:false ,servirity:"info", message:""});
     }
 
+    const handleSetPdfFileForView=(data:any)=>{
+        setPdfForView(data);
+    }
+
     //on bot click
     function BotCLick(bot:any) {
         console.log("bot clicked -" ,bot)
@@ -86,10 +96,14 @@ export default function ManageBots(){
             <CustomDrawer
                 bot={bot}
                 onClose={()=>setDrawerContent(null)}
+                isOpenPdf={()=>setIsPdfViewerOpen(true)}
+                setPdfFile={handleSetPdfFileForView}
             />
         )
         
     }
+
+    
 
     return(
         <Box 
@@ -139,6 +153,13 @@ export default function ManageBots(){
                 </Grid>
             </Box>
             {drawerContent}
+            {isPdfViewerOpen && 
+                <PdfViewer
+                    open={isPdfViewerOpen}
+                    onClose={()=>setIsPdfViewerOpen(false)}
+                    file={PdfForView}
+                />
+            }
             {alert.open && 
                     <Snackbar
                       open={alert.open}

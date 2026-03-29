@@ -9,12 +9,26 @@ type FileType = {
     url: string;
 };
 
-export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}){
+export default function CustomDrawer(
+    {
+        bot ,
+        onClose ,
+        isOpenPdf , 
+        setPdfFile
+    }:{
+        bot:any , 
+        onClose:()=>void ,
+        isOpenPdf:()=>void,
+        setPdfFile:(data:any)=>void
+    }){
 
     console.log("bot in custom Drawer - ", bot)
     const [files , setFiles]=useState<FileType[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [file , setFile]=useState<File | null>(null);
+
+    //pdf view modal set
+    const [PdfForView ,setPdfForView]=useState<any>();
 
     useEffect(()=>{
         if(!bot?.files) return;
@@ -147,7 +161,18 @@ export default function CustomDrawer({bot ,onClose}:{bot:any , onClose:()=>void}
                                     key={f.id}
                                 >
                                     <Typography>{f.fileName}</Typography>
-                                    <Button variant="contained" color="secondary">VIEW</Button>
+                                    <Button 
+                                        variant="contained" 
+                                        color="secondary" 
+                                        onClick={()=>{
+                                            // setPdfForView(f)
+                                            setPdfFile(f)
+                                            isOpenPdf
+                                        }}
+
+                                    >
+                                        VIEW
+                                    </Button>
                                     <Button variant="contained">REMOVE</Button>
                                 </Box>
                                ))}
