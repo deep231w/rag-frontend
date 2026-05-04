@@ -33,9 +33,14 @@ import ManageBots from '../components/ManageBots';
 import CreateBot from '../components/CreateBot';
 
 const NAVIGATION: Navigation = [
+  // {
+  //   kind: 'header',
+  //   title: 'Manage Your Bots',
+  // },
   {
-    kind: 'header',
-    title: 'Manage Your Bots',
+    segment: 'home/createbot',
+    title: 'Dashboard',
+    icon: <AddCircleIcon />,
   },
   {
     segment: 'home/createbot',
@@ -46,6 +51,11 @@ const NAVIGATION: Navigation = [
     segment: 'home/managebots',
     title: 'Manage Bots',
     icon: <SettingsApplicationsIcon />,
+  },
+  {
+    segment: 'home/createbot',
+    title: 'Settings',
+    icon: <AddCircleIcon />,
   },
 ];
 
