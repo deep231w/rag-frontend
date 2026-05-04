@@ -287,7 +287,7 @@ export default function Home(props: DemoProps) {
         authentication={authentication}
         session={session}
         branding={{
-            title:"ChatBot SDK Manager",
+            title:"Bot Manager",
             // logo: <DashboardIcon />,
         }}
       >

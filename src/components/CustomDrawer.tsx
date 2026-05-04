@@ -2,6 +2,7 @@ import { Box, Button, Drawer, IconButton, Input, InputAdornment, Paper, TextFiel
 import { useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useUploadThing } from "./UploadFileBtn";
+import axios from "axios";
 
 type FileType = {
     id: string;
@@ -53,6 +54,18 @@ export default function CustomDrawer(
             }
     };
 
+    //remove file handler 
+    const removeFileHandle=async(f:any)=>{
+        try{
+            const res=await axios(`${import.meta.env.BASE_URL}/removefile`,{
+                params:{
+
+                }
+            })
+        }catch(e){
+            console.log("error in remove file is -", e);
+        }
+    }
 
 
 
@@ -173,7 +186,12 @@ export default function CustomDrawer(
                                     >
                                         VIEW
                                     </Button>
-                                    <Button variant="contained">REMOVE</Button>
+                                    <Button
+                                        variant="contained"
+                                        onClick={()=>removeFileHandle(f)}
+                                    >
+                                        REMOVE
+                                    </Button>
                                 </Box>
                                ))}
                         </Box>):
