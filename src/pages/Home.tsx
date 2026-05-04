@@ -298,14 +298,16 @@ export default function Home(props: DemoProps) {
         session={session}
         branding={{
             title:"Bot Manager",
-            // logo: <DashboardIcon />,
+            logo: null,
         }}
+        
       >
         <DashboardLayout
           slots={{
             toolbarActions: CustomToolbarActions,
             sidebarFooter: SidebarFooterAccount,
           }}
+          
         >
             <Routes>
                 <Route path="createbot" element={<CreateBot />} />
