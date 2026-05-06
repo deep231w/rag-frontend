@@ -1,6 +1,6 @@
 import { Alert, Box, Button, IconButton, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
@@ -8,6 +8,10 @@ export default function CreateBot() {
   const [botName , setBotName]=useState<string>("");
   const [success, setSuccess]=useState<boolean>(false);
   const [description  ,setDescription]=useState<string | null>(null);
+  const [file , setFile]=useState<File | null>(null);
+  const [dragging , setDragging]=useState(false);
+
+  const inputRef= useRef<HTMLInputElement | null>(null);
 
   const [alert , setAlert]=useState<{
     message:string,
@@ -58,6 +62,40 @@ export default function CreateBot() {
       }
     }, [success]);
 
+
+  //handle file 
+  function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragging(true);
+  }
+
+  function handleDragLeave() {
+    setDragging(false);
+  }
+
+  function handleDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+
+    setDragging(false);
+
+    const droppedFile = e.dataTransfer.files[0];
+
+    if (droppedFile) {
+      setFile(droppedFile);
+      console.log("Dropped file:", droppedFile);
+    }
+  }
+  
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile) {
+      setFile(selectedFile);
+      console.log("Selected file:", selectedFile);
+    }
+  }
+
+
   return (
     <Box
       sx={{
@@ -99,20 +137,33 @@ export default function CreateBot() {
                 multiline
                 rows={6}
             />
+            <input
+              type="file"
+              hidden
+              ref={inputRef}
+              onChange={handleFileChange}
+            />
             <Box
-              sx={{
-                border:"1px solid rgba(255, 255, 255, 0.23)",
-                height:350,
-                borderRadius:1, 
-                display:"flex",
-                justifyContent:"center",
-                alignItems:"center",
-                background: "rgba(255,255,255,0.05)",   
-                backdropFilter: "blur(10px)",         
-                WebkitBackdropFilter: "blur(10px)",   
-                flexDirection:"column"
-              }}
-              
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={()=>inputRef.current?.click()}
+
+                sx={{
+                  border:dragging ?"2px solid #6366f1" :"1px solid rgba(255, 255, 255, 0.23)",
+                  height:350,
+                  borderRadius:1, 
+                  display:"flex",
+                  justifyContent:"center",
+                  alignItems:"center",
+
+                  cursor:"pointer",
+
+                  background:dragging?"rgba(99,102,241,0.08)" : "rgba(255,255,255,0.05)",   
+                  backdropFilter: "blur(10px)",         
+                  WebkitBackdropFilter: "blur(10px)",   
+                  flexDirection:"column"
+                }}
             >
               <IconButton sx={{}} disabled>
                 <AddToPhotosOutlinedIcon  sx={{fontSize:50 ,color:"rgba(255, 255, 255, 0.28)"}}/>
@@ -120,7 +171,6 @@ export default function CreateBot() {
               
               <Typography fontSize={15}>Drag & Drop file OR click here to Upload</Typography>
             </Box>
-
             <Button 
                 variant="contained"
                 color="secondary"
