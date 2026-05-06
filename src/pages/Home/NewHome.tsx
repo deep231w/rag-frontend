@@ -7,9 +7,19 @@ export default function NewHome (){
 
     const [openDrawer , setOpenDrawer]=useState<boolean>(false);
 
+    const drawerWidth = 240;
     return (
         <Box>
-            <AppBar position="static">
+            <AppBar 
+                position="static"
+                sx={{
+                        transition: "all 0.3s",
+                        ...(openDrawer && {
+                        ml: `${drawerWidth}px`,
+                        width: `calc(100% - ${drawerWidth}px)`,
+                        }),
+                    }}
+            >
                 <Toolbar variant="dense">
                     <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
                         <MenuIcon 
@@ -28,11 +38,24 @@ export default function NewHome (){
                     </Typography>
                 </Toolbar>
             </AppBar>
-            {openDrawer &&
-                <Drawer open={openDrawer} onClose={()=>setOpenDrawer(false)}>
-                    <MainDrawer/>
-                </Drawer>
-            }
+
+            <Drawer 
+                open={openDrawer} 
+                onClose={()=>setOpenDrawer(false)}
+
+                anchor="left"
+                variant="persistent"
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    "& .MuiDrawer-paper": {
+                        width: drawerWidth,
+                        boxSizing: "border-box",
+                    },
+                }}
+            >
+                <MainDrawer/>
+            </Drawer>
         </Box>
     )
 }
