@@ -2,6 +2,7 @@ import { AppBar, Box, Drawer, IconButton, Toolbar, Typography } from "@mui/mater
 import MenuIcon from "../../assets/icons/MenuIcon"
 import { useState } from "react"
 import MainDrawer from "../../components/Drawer/Drawer";
+import { Outlet } from "react-router-dom";
 
 export default function NewHome (){
 
@@ -67,6 +68,17 @@ export default function NewHome (){
             >
                     <MainDrawer/>                
             </Drawer>
+            <Box
+                sx={{
+                    transition:"all 0.3s",
+                    ...(openDrawer&&{
+                        ml:`${drawerWidth}px`,
+                        width:`calc(100%-${drawerWidth}px)`
+                    })
+                }}
+            >
+                <Outlet/>
+            </Box>
         </Box>
     )
 }

@@ -3,27 +3,29 @@ import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlin
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { useNavigate } from "react-router-dom";
 export  default function MainDrawer(){
 
+    const navigate =useNavigate();
     const Items=[
         {
             name:"Dashboard",
-            path:"/dashboard",
+            path:"dashboard",
             button:SpaceDashboardOutlinedIcon
         },
         {
             name:"Create Bot",
-            path:"/dashboard",
+            path:"create-bot",
             button:CreateNewFolderOutlinedIcon
         },
         {
             name:"Manage Bots",
-            path:"/dashboard",
+            path:"manage-bots",
             button:ManageAccountsOutlinedIcon
         },
         {
             name:"Setting",
-            path:"/dashboard",
+            path:"settings",
             button:SettingsOutlinedIcon
         }
     ]
@@ -49,7 +51,9 @@ export  default function MainDrawer(){
                     return (
                         <Box padding={1}>
                             <ListItem key={item.name} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton
+                                onClick={()=>navigate(item.path)}
+                            >
                                 <ListItemIcon sx={{ color: "white", minWidth: 36 }}>
                                 <Icon />
                                 </ListItemIcon>

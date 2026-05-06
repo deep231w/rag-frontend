@@ -3,6 +3,10 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import NewHome from "./pages/Home/NewHome";
+import Dashboard from "./components/Dashboard";
+import CreateBot from "./components/CreateBot";
+import ManageBots from "./components/ManageBots";
+import Settings from "./components/Settings";
 
 const ProtectedRoute:React.FC<{children:React.ReactElement}>=({children})=>{
     const token= localStorage.getItem("token");
@@ -30,11 +34,19 @@ export  default function AppRoutes(){
                         <Home/>
                     </ProtectedRoute>
                 }/>
-                <Route path="/newhome/*" element={
+               <Route
+                path="/newhome"
+                element={
                     <ProtectedRoute>
-                        <NewHome/>
+                    <NewHome />
                     </ProtectedRoute>
-                }/>
+                }
+                >
+                <Route path="dashboard" element={<Dashboard/>} />
+                <Route path="create-bot" element={<CreateBot/>} />
+                <Route path="manage-bots" element={<ManageBots/>} />
+                <Route path="settings" element={<Settings/>} />
+                </Route>
             </Routes>
         </BrowserRouter>
     )
