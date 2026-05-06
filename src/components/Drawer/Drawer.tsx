@@ -5,7 +5,7 @@ export  default function MainDrawer(){
         <Box>
             {/* <Paper> */}
                 <Box 
-                    sx={{ width: 250 }} role="presentation" 
+                    sx={{ }} role="presentation" 
                     // onClick={toggleDrawer(false)}
                 >
                 <List>

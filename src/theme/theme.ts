@@ -1,7 +1,7 @@
 // src/theme.ts
 import { createTheme } from "@mui/material/styles";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 export const theme = createTheme({
   palette: {
@@ -42,10 +42,9 @@ export const theme = createTheme({
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          width: drawerWidth,
+        //   width: drawerWidth,
           backgroundColor: "#020617",
-          borderRight: "1px solid rgba(255,255,255,0.05)",
-          
+        //   borderRight: "1px solid rgba(255,255,255,0.05)",
         },
       },
     },

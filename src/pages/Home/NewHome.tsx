@@ -7,7 +7,7 @@ export default function NewHome (){
 
     const [openDrawer , setOpenDrawer]=useState<boolean>(false);
 
-    const drawerWidth = 240;
+    const drawerWidth = 260;
     return (
         <Box>
             <AppBar 
@@ -48,16 +48,16 @@ export default function NewHome (){
 
                 anchor="left"
                 variant="persistent"
-                // sx={{
-                //     width: drawerWidth,
-                //     flexShrink: 0,
-                //     "& .MuiDrawer-paper": {
-                //         width: drawerWidth,
-                //         boxSizing: "border-box",
-                //     },
-                // }}
+                sx={{
+                    "& .MuiDrawer-paper": {
+                        borderRadius: "12px",
+                        margin:"9px",
+                        width:"245px",
+                        height: `calc(100% - ${10 * 2}px)`
+                    }
+                }}  
             >
-                <MainDrawer/>
+                    <MainDrawer/>                
             </Drawer>
         </Box>
     )
