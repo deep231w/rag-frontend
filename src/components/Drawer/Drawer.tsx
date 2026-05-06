@@ -1,13 +1,43 @@
 import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
 
 export  default function MainDrawer(){
+
+    const Items=[
+        {
+            name:"Dashboard",
+            path:"/dashboard",
+            button:<></>
+        },
+        {
+            name:"Create Bot",
+            path:"/dashboard",
+            button:<></>
+        },
+        {
+            name:"Manage Bots",
+            path:"/dashboard",
+            button:<></>
+        },
+        {
+            name:"Setting",
+            path:"/dashboard",
+            button:<></>
+        }
+    ]
     return(
-        <Box>
+        <Box sx={{ height: "100%" 
+        }}>
             {/* <Paper> */}
                 <Box 
                     sx={{ }} role="presentation" 
                     // onClick={toggleDrawer(false)}
                 >
+                <Box
+                    height={70}
+                >
+
+                </Box>
+                <Divider />
                 <List>
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem key={text} disablePadding>
@@ -20,7 +50,6 @@ export  default function MainDrawer(){
                     </ListItem>
                     ))}
                 </List>
-                <Divider />
                 <List>
                     {['All mail', 'Trash', 'Spam'].map((text, index) => (
                     <ListItem key={text} disablePadding>

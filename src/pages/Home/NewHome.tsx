@@ -13,6 +13,12 @@ export default function NewHome (){
             <AppBar 
                 position="static"
                 sx={{
+                        backdropFilter: "blur(10px)",         
+                        WebkitBackdropFilter: "blur(10px)",
+
+                        border: "1px solid rgba(255,255,255,0.08)", 
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+
                         transition: "all 0.3s",
                         ...(openDrawer && {
                         ml: `${drawerWidth}px`,
@@ -53,7 +59,9 @@ export default function NewHome (){
                         borderRadius: "12px",
                         margin:"9px",
                         width:"245px",
-                        height: `calc(100% - ${10 * 2}px)`
+                        height: `calc(100% - ${10 * 2}px)`,
+                        border: "1px solid rgba(255,255,255,0.08)", // 👈 soft edge
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
                     }
                 }}  
             >

@@ -10,7 +10,7 @@ export const theme = createTheme({
       main: "#6366f1", 
     },
     background: {
-      default: "#0f172a", 
+      default: "#020617",
       paper: "#1e293b",
     },
   },
@@ -25,16 +25,26 @@ export const theme = createTheme({
   shape: {
     borderRadius: 10,
   },
+  
 
   components: {
+    MuiCssBaseline:{
+        styleOverrides:{
+            paddingTop:"12px"
+        }
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#000000",
+          backgroundColor: "#28262667",
           boxShadow: "7px",
           borderRadius:"12px",
           height:"70px",
-          justifyContent:"center"
+          justifyContent:"center",
+          marginTop:"12px",
+        //   marginLeft:"12px",
+          marginRight:"12px",
+          border: "1px solid white",
         },
       },
     },
@@ -43,7 +53,7 @@ export const theme = createTheme({
       styleOverrides: {
         paper: {
         //   width: drawerWidth,
-          backgroundColor: "#020617",
+          backgroundColor: "#28262667",
         //   borderRight: "1px solid rgba(255,255,255,0.05)",
         },
       },
