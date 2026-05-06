@@ -1,7 +1,7 @@
-import { Alert, Box, Button, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Button, IconButton, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
 
@@ -78,7 +78,7 @@ export default function CreateBot() {
         </Typography>
         <Box
             sx={{
-                pt:7,
+                pt:5,
                 display:"flex",
                 flexDirection:"column"
             }}
@@ -99,7 +99,27 @@ export default function CreateBot() {
                 multiline
                 rows={6}
             />
-
+            <Box
+              sx={{
+                border:"1px solid rgba(255, 255, 255, 0.23)",
+                height:350,
+                borderRadius:1, 
+                display:"flex",
+                justifyContent:"center",
+                alignItems:"center",
+                background: "rgba(255,255,255,0.05)",   
+                backdropFilter: "blur(10px)",         
+                WebkitBackdropFilter: "blur(10px)",   
+                flexDirection:"column"
+              }}
+              
+            >
+              <IconButton sx={{}} disabled>
+                <AddToPhotosOutlinedIcon  sx={{fontSize:50 ,color:"rgba(255, 255, 255, 0.28)"}}/>
+              </IconButton>
+              
+              <Typography fontSize={15}>Drag & Drop file OR click here to Upload</Typography>
+            </Box>
 
             <Button 
                 variant="contained"
