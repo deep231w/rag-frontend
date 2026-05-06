@@ -25,17 +25,17 @@ export  default function AppRoutes(){
         <BrowserRouter>
             <Routes>
                 <Route path="/"
-                        element={token ? <Navigate to={"/home"}/>: <Navigate to={"/signin"}/>}
+                        element={token ? <Navigate to={"/home/dashboard"}/>: <Navigate to={"/signin"}/>}
                 />
-                <Route path="/signup" element={token ? <Navigate to={"/home"}/>:<SignUp/>}/>
-                <Route path="/signin" element={token ? <Navigate to={"/home"}/>:<SignIn/>}/>
-                <Route path="/home/*" element={
+                <Route path="/signup" element={token ? <Navigate to={"/home/dashboard"}/>:<SignUp/>}/>
+                <Route path="/signin" element={token ? <Navigate to={"/home/dashboard"}/>:<SignIn/>}/>
+                {/* <Route path="/home/*" element={
                     <ProtectedRoute>
                         <Home/>
                     </ProtectedRoute>
-                }/>
+                }/> */}
                <Route
-                path="/newhome"
+                path="/home"
                 element={
                     <ProtectedRoute>
                     <NewHome />
