@@ -7,6 +7,8 @@ export default function CreateBot() {
 
   const [botName , setBotName]=useState<string>("");
   const [success, setSuccess]=useState<boolean>(false);
+  const [description  ,setDescription]=useState<string | null>(null);
+
   const [alert , setAlert]=useState<{
     message:string,
     servirity:AlertColor,
@@ -62,10 +64,16 @@ export default function CreateBot() {
         flex: 1,
         display: "flex",
         justifyContent: "center",
+        // justifyItems:"center",
+        // alignContent:"center",
+        // alignItems:"center"
+        
       }}
     >
-      <Box>
-        <Typography variant="h2">
+      <Box
+        sx={{ width: "100%", maxWidth: 600 }}
+      >
+        <Typography variant="h2" textAlign="center">
           Create Bot
         </Typography>
         <Box
@@ -80,7 +88,18 @@ export default function CreateBot() {
                 onChange={(e)=>setBotName(e.target.value)}
                 label="Bot Name"
                 fullWidth
+                sx={{
+                }}
             />
+
+            <TextField
+                onChange={(e)=>setDescription(e.target.value)}
+                label="Description"
+                fullWidth
+                multiline
+                rows={6}
+            />
+
 
             <Button 
                 variant="contained"
