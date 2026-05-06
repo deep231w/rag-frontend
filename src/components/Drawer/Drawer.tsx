@@ -1,29 +1,33 @@
 import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
-
+import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 export  default function MainDrawer(){
 
     const Items=[
         {
             name:"Dashboard",
             path:"/dashboard",
-            button:<></>
+            button:SpaceDashboardOutlinedIcon
         },
         {
             name:"Create Bot",
             path:"/dashboard",
-            button:<></>
+            button:CreateNewFolderOutlinedIcon
         },
         {
             name:"Manage Bots",
             path:"/dashboard",
-            button:<></>
+            button:ManageAccountsOutlinedIcon
         },
         {
             name:"Setting",
             path:"/dashboard",
-            button:<></>
+            button:SettingsOutlinedIcon
         }
     ]
+    
     return(
         <Box sx={{ height: "100%" 
         }}>
@@ -39,30 +43,25 @@ export  default function MainDrawer(){
                 </Box>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                        <ListItemIcon>
-                            {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                    ))}
+                    {Items.map((item) => {
+                    const Icon = item.button;
+
+                    return (
+                        <Box padding={1}>
+                            <ListItem key={item.name} disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon sx={{ color: "white", minWidth: 36 }}>
+                                <Icon />
+                                </ListItemIcon>
+
+                                <ListItemText primary={item.name} />
+                            </ListItemButton>
+                            </ListItem>
+                        </Box>
+                    );
+                    })}                
                 </List>
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                        <ListItemIcon>
-                            {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                    ))}
-                </List>
-                </Box>
+            </Box>
             {/* </Paper> */}
         </Box>
     )
