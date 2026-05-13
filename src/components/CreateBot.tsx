@@ -1,7 +1,12 @@
-import { Alert, Box, Button, IconButton, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Button, Icon, IconButton, Snackbar, SvgIcon, TextField, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
+import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
+import PdfIcon from "../assets/icons/PdfIcon";
+import PdficonSVG from "../assets/icons/pdfIconSVG.svg";
+
+
 export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
 
@@ -169,6 +174,8 @@ export default function CreateBot() {
               ref={inputRef}
               onChange={handleFileChange}
             />
+            {files.length >0 ?<MultipleFiles files={files}/>:
+            
             <Box
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -196,7 +203,7 @@ export default function CreateBot() {
               </IconButton>
               
               <Typography fontSize={15}>Drag & Drop file OR click here to Upload</Typography>
-            </Box>
+            </Box>}
             <Button 
                 variant="contained"
                 color="secondary"
@@ -225,4 +232,68 @@ export default function CreateBot() {
         </Snackbar>}
     </Box>
   );
+}
+
+function MultipleFiles({files}:{files:File[]}){
+  return (
+    <Box
+  sx={{
+    display: "flex",
+    flexWrap: "wrap",   // 🔥 next row automatically
+    gap: 2,
+    mt: 2,
+  }}
+>
+  {files.map((f) => (
+    <Box
+      key={f.name}
+      sx={{
+        width: 140,
+        minHeight: 140,
+
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: "16px",
+
+        background: "rgba(255,255,255,0.04)",
+        backdropFilter: "blur(10px)",
+
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+
+        p: 2,
+
+        transition: "0.2s ease",
+
+        "&:hover": {
+          background: "rgba(255,255,255,0.07)",
+          transform: "translateY(-2px)",
+        },
+      }}
+    >
+      <Box
+        component="img"
+        src={PdficonSVG}
+        alt="pdf"
+        sx={{
+          width: 50,
+          height: 50,
+          mb: 1,
+        }}
+      />
+
+      <Typography
+        fontSize={13}
+        textAlign="center"
+        sx={{
+          wordBreak: "break-word",
+        }}
+      >
+        {f.name}
+      </Typography>
+    </Box>
+  ))}
+</Box>
+  )
 }
