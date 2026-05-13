@@ -1,9 +1,7 @@
-import { Alert, Box, Button, Icon, IconButton, Snackbar, SvgIcon, TextField, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Button, IconButton, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
-import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
-import PdfIcon from "../assets/icons/PdfIcon";
 import PdficonSVG from "../assets/icons/pdfIconSVG.svg";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
@@ -27,6 +25,13 @@ export default function CreateBot() {
     servirity:"info",
     open:false
   })
+
+  //file 
+  function removeFile(indexToRemove: number) {
+  setFiles((prev) =>
+    prev.filter((_, index) => index !== indexToRemove)
+  );
+  }
 
   async function createButton() {
     console.log("admin is = ", admin)
@@ -174,7 +179,7 @@ export default function CreateBot() {
               ref={inputRef}
               onChange={handleFileChange}
             />
-            {files.length >0 ?<MultipleFiles files={files}/>:
+            {files.length >0 ?<MultipleFiles files={files} removeFile={removeFile}/>:
             
             <Box
                 onDragOver={handleDragOver}
@@ -234,82 +239,85 @@ export default function CreateBot() {
   );
 }
 
-function MultipleFiles({files}:{files:File[]}){
+function MultipleFiles({files,removeFile}:{files:File[] ,removeFile:(index:number)=>void}){
   return (
-<Box
-  sx={{
-    display: "flex",
-    flexWrap: "wrap",   // 🔥 next row automatically
-    gap: 2,
-    mt: 2,
-  }}
->
-  {files.map((f) => (
     <Box
-      key={f.name}
       sx={{
-        width: 140,
-        minHeight: 140,
-
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: "16px",
-
-        background: "rgba(255,255,255,0.04)",
-        backdropFilter: "blur(10px)",
-
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-
-        p: 2,
-
-        transition: "0.2s ease",
-
-        "&:hover": {
-          background: "rgba(255,255,255,0.07)",
-          transform: "translateY(-2px)",
-        },
+        flexWrap: "wrap",   
+        gap: 2,
+        mt: 2,
       }}
     >
-      <IconButton
-        size="small"
-        sx={{
-          position: "absolute",
-          top: 6,
-          right: 6,
+      {files.map((f,index) => (
+        <Box
+          key={f.name}
+          sx={{
+            width: 140,
+            minHeight: 140,
 
-          color: "rgba(255,255,255,0.6)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: "16px",
 
-          "&:hover": {
-            color: "white",
-            background: "rgba(255,255,255,0.08)",
-          },
-        }}
-      >
-        <CloseOutlinedIcon fontSize="small" />
-      </IconButton>
-      <Box
-        component="img"
-        src={PdficonSVG}
-        alt="pdf"
-        sx={{
-          width: 50,
-          height: 50,
-          mb: 1,
-        }}
-      />
+            background: "rgba(255,255,255,0.04)",
+            backdropFilter: "blur(10px)",
 
-      <Typography
-        fontSize={13}
-        textAlign="center"
-        sx={{
-          wordBreak: "break-word",
-        }}
-      >
-        {f.name}
-      </Typography>
-    </Box>
-  ))}
-</Box>  )
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+
+            p: 2,
+
+            transition: "0.2s ease",
+
+            "&:hover": {
+              background: "rgba(255,255,255,0.07)",
+              transform: "translateY(-2px)",
+            },
+          }}
+        >
+          <IconButton
+            size="small"
+            sx={{
+              position: "absolute",
+              top: 6,
+              right: 6,
+
+              color: "rgba(255,255,255,0.6)",
+
+              "&:hover": {
+                color: "white",
+                background: "rgba(255,255,255,0.08)",
+              },
+            }}
+            onClick={()=>removeFile(index)}
+
+          >
+            <CloseOutlinedIcon fontSize="small" />
+          </IconButton>
+          <Box
+            component="img"
+            src={PdficonSVG}
+            alt="pdf"
+            sx={{
+              width: 50,
+              height: 50,
+              mb: 1,
+            }}
+          />
+
+          <Typography
+            fontSize={13}
+            textAlign="center"
+            sx={{
+              wordBreak: "break-word",
+            }}
+          >
+            {f.name}
+          </Typography>
+        </Box>
+      ))}
+    </Box>  
+  )
 }
