@@ -8,7 +8,7 @@ export default function CreateBot() {
   const [botName , setBotName]=useState<string>("");
   const [success, setSuccess]=useState<boolean>(false);
   const [description  ,setDescription]=useState<string | null>(null);
-  const [file , setFile]=useState<File | null>(null);
+  const [files , setFiles]=useState<File[] >([]);
   const [dragging , setDragging]=useState(false);
 
   const inputRef= useRef<HTMLInputElement | null>(null);
@@ -78,24 +78,48 @@ export default function CreateBot() {
 
     setDragging(false);
 
-    const droppedFile = e.dataTransfer.files[0];
+    const selectedFiles = e.dataTransfer.files;
 
-    if (droppedFile) {
-      setFile(droppedFile);
-      console.log("Dropped file:", droppedFile);
+    if (selectedFiles) {
+      const filesArray = Array.from(selectedFiles);
+
+      setFiles((prev) => {
+        const newFiles = [...prev, ...filesArray];
+
+        return newFiles.filter(
+          (file, index, self) =>
+            index === self.findIndex((f) => f.name === file.name)
+        );
+      });
+      // console.log("Dropped file:", droppedFile);\
     }
   }
   
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const selectedFile = e.target.files?.[0];
+  function handleFileChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const selectedFiles = e.target.files;
 
-    if (selectedFile) {
-      setFile(selectedFile);
-      console.log("Selected file:", selectedFile);
+    if (selectedFiles) {
+      const filesArray = Array.from(selectedFiles);
+
+      setFiles((prev) => {
+        const newFiles = [...prev, ...filesArray];
+
+        return newFiles.filter(
+          (file, index, self) =>
+            index === self.findIndex((f) => f.name === file.name)
+        );
+      });
+
+      e.target.value = "";
     }
   }
 
 
+  useEffect(()=>{
+    console.log("files: -", files)
+  },[files])
   return (
     <Box
       sx={{
@@ -139,7 +163,9 @@ export default function CreateBot() {
             />
             <input
               type="file"
+              accept=".pdf"
               hidden
+              multiple
               ref={inputRef}
               onChange={handleFileChange}
             />
