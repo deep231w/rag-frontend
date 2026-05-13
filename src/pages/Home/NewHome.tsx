@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 export default function NewHome (){
 
-    const [openDrawer , setOpenDrawer]=useState<boolean>(false);
+    const [openDrawer , setOpenDrawer]=useState<boolean>(true);
 
     const drawerWidth = 260;
     return (
