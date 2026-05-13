@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import PdficonSVG from "../assets/icons/pdfIconSVG.svg";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 
 export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
@@ -241,83 +242,129 @@ export default function CreateBot() {
 
 function MultipleFiles({files,removeFile}:{files:File[] ,removeFile:(index:number)=>void}){
   return (
+<Box
+  sx={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(135px, 135px))",
+    justifyContent: "start",
+    gap: 2,
+    mt: 2,
+  }}
+>
+  {files.map((f, index) => (
     <Box
+      key={`${f.name}-${index}`}
       sx={{
+        position: "relative",
+
+        width: 130,
+        minHeight: 130,
+
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: "16px",
+
+        background: "rgba(255,255,255,0.04)",
+        backdropFilter: "blur(10px)",
+
         display: "flex",
-        flexWrap: "wrap",   
-        gap: 2,
-        mt: 2,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+
+        p: 1,
+
+        transition: "0.2s ease",
+
+        "&:hover": {
+          background: "rgba(255,255,255,0.07)",
+          transform: "translateY(-2px)",
+        },
       }}
     >
-      {files.map((f,index) => (
-        <Box
-          key={f.name}
-          sx={{
-            width: 140,
-            minHeight: 140,
+      <IconButton
+        size="small"
+        sx={{
+          position: "absolute",
+          top: 6,
+          right: 6,
 
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "16px",
+          color: "rgba(255,255,255,0.6)",
 
-            background: "rgba(255,255,255,0.04)",
-            backdropFilter: "blur(10px)",
+          "&:hover": {
+            color: "white",
+            background: "rgba(255,255,255,0.08)",
+          },
+        }}
+        onClick={() => removeFile(index)}
+      >
+        <CloseOutlinedIcon fontSize="small" />
+      </IconButton>
 
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+      <Box
+        component="img"
+        src={PdficonSVG}
+        alt="pdf"
+        sx={{
+          width: 50,
+          height: 50,
+          mb: 1,
+        }}
+      />
 
-            p: 2,
+      <Typography
+        fontSize={13}
+        textAlign="center"
+        sx={{
+          wordBreak: "break-word",
+        }}
+      >
+        {f.name}
+      </Typography>
+    </Box>
+  ))}
 
-            transition: "0.2s ease",
+  <Box
+    // onClick={openFilePicker}
+    sx={{
+      width: 140,
+      minHeight: 140,
 
-            "&:hover": {
-              background: "rgba(255,255,255,0.07)",
-              transform: "translateY(-2px)",
-            },
-          }}
-        >
-          <IconButton
-            size="small"
-            sx={{
-              position: "absolute",
-              top: 6,
-              right: 6,
+      border: "1px dashed rgba(255,255,255,0.2)",
+      borderRadius: "16px",
 
-              color: "rgba(255,255,255,0.6)",
+      background: "rgba(255,255,255,0.03)",
 
-              "&:hover": {
-                color: "white",
-                background: "rgba(255,255,255,0.08)",
-              },
-            }}
-            onClick={()=>removeFile(index)}
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
 
-          >
-            <CloseOutlinedIcon fontSize="small" />
-          </IconButton>
-          <Box
-            component="img"
-            src={PdficonSVG}
-            alt="pdf"
-            sx={{
-              width: 50,
-              height: 50,
-              mb: 1,
-            }}
-          />
+      cursor: "pointer",
 
-          <Typography
-            fontSize={13}
-            textAlign="center"
-            sx={{
-              wordBreak: "break-word",
-            }}
-          >
-            {f.name}
-          </Typography>
-        </Box>
-      ))}
-    </Box>  
-  )
+      transition: "0.2s ease",
+
+      "&:hover": {
+        background: "rgba(255,255,255,0.06)",
+        borderColor: "rgba(255,255,255,0.4)",
+      },
+    }}
+  >
+    <AddToPhotosOutlinedIcon
+      sx={{
+        fontSize: 45,
+        color: "rgba(255,255,255,0.5)",
+      }}
+    />
+
+    <Typography
+      fontSize={13}
+      sx={{
+        mt: 1,
+        color: "rgba(255,255,255,0.6)",
+      }}
+    >
+      Add More
+    </Typography>
+  </Box>
+</Box>  )
 }
