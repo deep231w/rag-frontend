@@ -86,13 +86,33 @@ export const theme = createTheme({
       },
     },
 
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-          borderRadius: 8,
-        },
+MuiButton: {
+  styleOverrides: {
+    root: {
+      borderRadius: 12,
+      textTransform: "none",
+      fontWeight: 600,
+
+      transition: "all 0.2s ease",
+    },
+
+    contained: {
+      backgroundColor: "#c8a30f", // yellow
+      color: "#000",
+
+      "&:hover": {
+        backgroundColor: "#70570a",
+      },
+
+      "&:active": {
+        transform: "scale(0.98)",
+      },
+
+      "&.Mui-disabled": {
+        backgroundColor: "rgba(255,255,255,0.12)",
+        color: "rgba(255,255,255,0.3)",
       },
     },
   },
+},  },
 });

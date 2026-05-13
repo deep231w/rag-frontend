@@ -212,7 +212,7 @@ export default function CreateBot() {
             </Box>}
             <Button 
                 variant="contained"
-                color="secondary"
+                // color="secondary"
                 onClick={createButton}
             > 
                 Create
