@@ -5,7 +5,7 @@ import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import PictureAsPdfOutlinedIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import PdfIcon from "../assets/icons/PdfIcon";
 import PdficonSVG from "../assets/icons/pdfIconSVG.svg";
-
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
@@ -236,7 +236,7 @@ export default function CreateBot() {
 
 function MultipleFiles({files}:{files:File[]}){
   return (
-    <Box
+<Box
   sx={{
     display: "flex",
     flexWrap: "wrap",   // 🔥 next row automatically
@@ -272,6 +272,23 @@ function MultipleFiles({files}:{files:File[]}){
         },
       }}
     >
+      <IconButton
+        size="small"
+        sx={{
+          position: "absolute",
+          top: 6,
+          right: 6,
+
+          color: "rgba(255,255,255,0.6)",
+
+          "&:hover": {
+            color: "white",
+            background: "rgba(255,255,255,0.08)",
+          },
+        }}
+      >
+        <CloseOutlinedIcon fontSize="small" />
+      </IconButton>
       <Box
         component="img"
         src={PdficonSVG}
@@ -294,6 +311,5 @@ function MultipleFiles({files}:{files:File[]}){
       </Typography>
     </Box>
   ))}
-</Box>
-  )
+</Box>  )
 }
