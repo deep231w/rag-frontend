@@ -86,33 +86,73 @@ export const theme = createTheme({
       },
     },
 
-MuiButton: {
-  styleOverrides: {
-    root: {
-      borderRadius: 12,
-      textTransform: "none",
-      fontWeight: 600,
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: 12,
+        textTransform: "none",
+        fontWeight: 600,
 
-      transition: "all 0.2s ease",
-    },
-
-    contained: {
-      backgroundColor: "#c8a30f", // yellow
-      color: "#000",
-
-      "&:hover": {
-        backgroundColor: "#70570a",
+        transition: "all 0.2s ease",
       },
 
-      "&:active": {
-        transform: "scale(0.98)",
-      },
+      contained: {
+        backgroundColor: "#c8a30f", // yellow
+        color: "#000",
 
-      "&.Mui-disabled": {
-        backgroundColor: "rgba(255,255,255,0.12)",
-        color: "rgba(255,255,255,0.3)",
+        "&:hover": {
+          backgroundColor: "#70570a",
+        },
+
+        "&:active": {
+          transform: "scale(0.98)",
+        },
+
+        "&.Mui-disabled": {
+          backgroundColor: "rgba(255,255,255,0.12)",
+          color: "rgba(255,255,255,0.3)",
+        },
       },
     },
   },
-},  },
+  MuiListItemButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: 12,
+        fontWeight: 600,
+
+        transition: "all 0.2s ease",
+
+        backgroundColor: "#c8a30fe0",
+        border: "1px",
+
+        color: "#c8a30f",
+
+        "&:hover": {
+          backgroundColor: "#70570a",
+          color: "#70570a",
+        },
+
+        "&:active": {
+          transform: "scale(0.98)",
+          backgroundColor: "#4f3d07",
+          color: "#facc15",
+        },
+
+        "&.Mui-selected": {
+          backgroundColor: "rgba(102, 224, 21, 0.54)",
+          color: "#facc15",
+        },
+
+        "&.Mui-selected:hover": {
+          backgroundColor: "rgba(200,163,15,0.25)",
+        },
+
+        "&.Mui-disabled": {
+          opacity: 0.4,
+        },
+      }
+    },
+  },
+},
 });

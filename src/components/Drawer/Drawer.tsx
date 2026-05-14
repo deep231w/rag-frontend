@@ -3,10 +3,11 @@ import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlin
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export  default function MainDrawer(){
 
     const navigate =useNavigate();
+    const location=useLocation();
     const Items=[
         {
             name:"Dashboard",
@@ -53,6 +54,7 @@ export  default function MainDrawer(){
                             <ListItem key={item.name} disablePadding>
                             <ListItemButton
                                 onClick={()=>navigate(item.path)}
+                                selected={location.pathname.includes(item.path)}
                             >
                                 <ListItemIcon sx={{ color: "white", minWidth: 36 }}>
                                 <Icon />
