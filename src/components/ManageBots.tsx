@@ -268,9 +268,9 @@ export default function ManageBots(){
                                     horizontal: 'left',
                                     }}
                                 >
-                                    <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
-                                    <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
-                                    <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>View</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>Manage</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>Delete Bot</MenuItem>
                                 </Menu>
                             </Box>
                             </Box>
