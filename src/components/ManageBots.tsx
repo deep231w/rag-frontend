@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Grid, IconButton, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Button, Grid, IconButton, Menu, MenuItem, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CustomDrawer from "./CustomDrawer";
@@ -38,6 +38,17 @@ export default function ManageBots(){
       const [viewFile, setViewFile]=useState();
       const [PdfForView , setPdfForView]=useState<any>();
       
+      //menu button
+        const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+        const open = Boolean(anchorEl);
+        const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+            setAnchorEl(event.currentTarget);
+        };
+        const handleCloseMenu = () => {
+            setAnchorEl(null);
+        };
+
+
     
     async function fetchBots(){
         if(!admin){
@@ -226,17 +237,41 @@ export default function ManageBots(){
                                 }}
                             >
                                 <IconButton
-                                sx={{
-                                    color: "rgba(255,255,255,0.65)",
+                                    sx={{
+                                        color: "rgba(255,255,255,0.65)",
 
-                                    "&:hover": {
-                                    background: "rgba(255,255,255,0.08)",
-                                    color: "#fff",
-                                    },
-                                }}
+                                        "&:hover": {
+                                        background: "rgba(255,255,255,0.08)",
+                                        color: "#fff",
+                                        },
+                                    }}
+                                    id="demo-positioned-button"
+                                    aria-controls={open ? 'demo-positioned-menu' : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open}
+                                    onClick={handleClick}
                                 >
-                                <MoreVertOutlinedIcon />
+                                    <MoreVertOutlinedIcon />
                                 </IconButton>
+                                <Menu
+                                    id="demo-positioned-menu"
+                                    aria-labelledby="demo-positioned-button"
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleCloseMenu}
+                                    anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                    }}
+                                    transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                    }}
+                                >
+                                    <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>My account</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>Logout</MenuItem>
+                                </Menu>
                             </Box>
                             </Box>
                             {/* <Button
