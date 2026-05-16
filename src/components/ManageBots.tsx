@@ -1,8 +1,10 @@
-import { Alert, Box, Button, Grid, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Button, Grid, IconButton, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CustomDrawer from "./CustomDrawer";
 import { PdfViewer } from "./PdfViewer";
+import BotIcon from "../assets/icons/BotIcon";
+import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 
 export default function ManageBots(){
 
@@ -13,6 +15,7 @@ export default function ManageBots(){
             id: string; 
             adminId: string; 
             botName: string;
+            description:string;
             files:[]
         }[]
     >([]);
@@ -59,6 +62,7 @@ export default function ManageBots(){
                 id:bot._id,
                 adminId:bot.adminId,
                 botName:bot.name,
+                description:bot.description || "N/A",
                 files:bot.files.map((f:any)=>({
                     id:f._id,
                     fileName:f.name,
@@ -123,8 +127,119 @@ export default function ManageBots(){
             <Box sx={{mt:4}}>
                 <Grid container spacing={3}>
                     {bots.length>=1 ? (bots.map((bot)=>(
-                        <Grid key={bot.id} size={{xs:12 , sm:6 , md:4}} >
-                            <Button
+                        <Grid key={bot.id} size={{xs:12 , sm:6 , md:3}} >
+                            <Box
+                            sx={{
+                                position: "relative",
+
+
+                                border: "1px solid rgba(255,255,255,0.08)",
+                                borderRadius: "18px",
+
+                                background: "rgba(255,255,255,0.04)",
+                                backdropFilter: "blur(12px)",
+                                WebkitBackdropFilter: "blur(12px)",
+
+                                boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
+
+                                p: 3,
+                                m:2,
+
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+
+                                transition: "all 0.25s ease",
+
+                                "&:hover": {
+                                transform: "translateY(-4px)",
+                                background: "rgba(255,255,255,0.06)",
+                                border: "1px solid rgba(255,255,255,0.12)",
+                                },
+                            }}
+                            >
+                            {/* Top Section */}
+                            <Box
+                                sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                gap: 2,
+                                }}
+                            >
+                                <Box
+                                sx={{
+                                    width: 120,
+                                    height: 120,
+
+                                    borderRadius: "50%",
+
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+
+                                    background:
+                                    "linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
+
+                                    border: "1px solid rgba(255,255,255,0.08)",
+                                }}
+                                >
+                                <BotIcon height="80px" width="80px" />
+                                </Box>
+
+                                <Box textAlign="center">
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                    fontWeight: 700,
+                                    color: "#f8fafc",
+                                    }}
+                                >
+                                    {bot.botName}
+                                </Typography>
+
+                                <Typography
+                                    sx={{
+                                    mt: 1,
+                                    fontSize: 14,
+                                    color: "rgba(255,255,255,0.65)",
+
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 3,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                    }}
+                                >
+                                    {bot.description}
+                                </Typography>
+                                </Box>
+                            </Box>
+
+                            {/* Bottom Section */}
+                            <Box
+                                sx={{
+                                mt: 3,
+
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                                }}
+                            >
+                                <IconButton
+                                sx={{
+                                    color: "rgba(255,255,255,0.65)",
+
+                                    "&:hover": {
+                                    background: "rgba(255,255,255,0.08)",
+                                    color: "#fff",
+                                    },
+                                }}
+                                >
+                                <MoreVertOutlinedIcon />
+                                </IconButton>
+                            </Box>
+                            </Box>
+                            {/* <Button
                                 fullWidth
                                 onClick={()=>BotCLick(bot)}
                             >
@@ -136,7 +251,7 @@ export default function ManageBots(){
                                         {bot.botName}
                                     </Typography>
                                 </Paper>
-                            </Button>
+                            </Button> */}
                             
                         </Grid>
                     ))):(
