@@ -1,74 +1,234 @@
-# React + TypeScript + Vite
+# RAG Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern AI-powered RAG (Retrieval-Augmented Generation) frontend dashboard built with:
 
-Currently, two official plugins are available:
+- React
+- TypeScript
+- Vite
+- Material UI (MUI)
+- React Router
+- Chart.js
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project provides a clean admin dashboard for managing bots, uploading PDFs, configuring AI providers, and visualizing analytics.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Features
 
-## Expanding the ESLint configuration
+- AI Bot Management Dashboard
+- Persistent Sidebar Navigation
+- Dynamic Nested Routing
+- Drag & Drop PDF Upload
+- Multiple File Upload Support
+- File Preview Cards
+- AI Provider Configuration
+- Dashboard Analytics
+- Doughnut & Line Charts
+- Glassmorphism UI
+- Dark Theme Support
+- Reusable Component Architecture
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Technology | Usage |
+|---|---|
+| React | Frontend Library |
+| TypeScript | Type Safety |
+| Vite | Build Tool |
+| Material UI | UI Components |
+| React Router DOM | Routing |
+| Chart.js | Analytics Charts |
+| Axios | API Requests |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+# Folder Structure
+
+```bash
+frontend/
+├── public/
+├── screenshots/
+├── src/
+│   ├── assets/
+│   │   └── icons/
+│   ├── components/
+│   ├── pages/
+│   ├── theme/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── route.tsx
+├── package.json
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+# Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <repo-url>
+
+cd frontend
+
+npm install
 ```
-# rag-frontend
+
+---
+
+# Run Development Server
+
+```bash
+npm run dev
+```
+
+---
+
+# Build Production
+
+```bash
+npm run build
+```
+
+---
+
+# Dashboard Screenshots
+
+## Dashboard
+
+![Dashboard](./screenshots/Dashboard.png)
+
+The analytics dashboard provides:
+
+- Bot metrics
+- Charts & usage analytics
+- Clean SaaS-inspired UI
+- Responsive layout system
+
+---
+
+## Create Bot
+
+![Create Bot](./screenshots/CreateBot-png.png)
+
+Features:
+
+- Bot creation form
+- PDF drag & drop upload
+- Multiple file support
+- File preview cards
+- Dynamic upload handling
+
+---
+
+## Bot Management
+
+![Bot Management](./screenshots/botmanagement.png)
+
+Features:
+
+- Bot listing
+- Action menus
+- Bot overview cards
+- Manage existing AI bots
+
+---
+
+## Settings
+
+![Settings](./screenshots/settings.png)
+
+Features:
+
+- LLM API configuration
+- Embedding model settings
+- Provider management
+- Clean glassmorphism UI
+
+---
+
+# Routing
+
+Nested routing is implemented using:
+
+```tsx
+<Route path="/newhome" element={<NewHome />}>
+  <Route path="dashboard" element={<Dashboard />} />
+  <Route path="create-bot" element={<CreateBot />} />
+  <Route path="manage-bots" element={<ManageBots />} />
+  <Route path="settings" element={<Settings />} />
+</Route>
+```
+
+---
+
+# Theme System
+
+The project uses a centralized MUI theme configuration:
+
+```tsx
+theme/
+└── theme.ts
+```
+
+Customizations include:
+
+- Dark mode
+- Custom component overrides
+- Glassmorphism styling
+- Global typography
+- Drawer & AppBar styling
+
+---
+
+# Charts
+
+Analytics are built using:
+
+```bash
+chart.js
+react-chartjs-2
+```
+
+Supported charts:
+
+- Doughnut Chart
+- Line Chart
+- Metrics Cards
+
+---
+
+# Upload System
+
+Supports:
+
+- Drag & Drop
+- Multiple PDF Upload
+- Duplicate Filtering
+- Dynamic File Preview
+- File Removal
+
+---
+
+# Future Improvements
+
+- Authentication Persistence
+- WebSocket Realtime Analytics
+- Bot Chat Interface
+- Team Collaboration
+- Vector Database Integration
+- AI Streaming Responses
+- Usage Billing Dashboard
+
+---
+
+# Author
+
+Built for experimenting with:
+
+- RAG systems
+- AI dashboards
+- frontend architecture
+- modern SaaS UI systems
+- AI tooling platforms
