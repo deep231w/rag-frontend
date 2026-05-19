@@ -5,6 +5,8 @@ import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import PdficonSVG from "../assets/icons/pdfIconSVG.svg";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
+import { useUploadThing } from "./UploadFileBtn";
+
 
 export default function CreateBot() {
   const admin= JSON.parse(localStorage.getItem("admin") || "null");
@@ -27,6 +29,16 @@ export default function CreateBot() {
     open:false
   })
 
+      //uploadthing setup 
+    const { startUpload, isUploading } = useUploadThing("pdfUploader",{
+        onUploadError(e){
+            console.log("error in upload error =", e);
+        },
+        onUploadBegin(fileName) {
+          console.log("upload started file name -", fileName);  
+        },
+    });
+
   //file 
   function removeFile(indexToRemove: number) {
   setFiles((prev) =>
@@ -37,22 +49,29 @@ export default function CreateBot() {
   async function createButton() {
     console.log("admin is = ", admin)
 
-    if(!botName || !admin){
+    if(!botName || !admin ){
       console.log("error , missing creds");
       return;
     }
     try{
+
       const res =await axios.post(`${import.meta.env.VITE_API_URL}/bot/create`,{
         name:botName,
         adminId:admin.userId
       })
 
       console.log("bot create response- ", res);
-
-      if(res.status==200){
-        setSuccess(true)
-        setAlert({open:true ,servirity:"success", message:"bot create"});
+      const createdBot= res.data.bot;
+      //uplaod selected files
+      if(files.length>0){
+        await startUpload(files,{
+          bot:createdBot._id,
+          adminId:admin.userId
+        })
       }
+
+      setSuccess(true)
+      setAlert({open:true ,servirity:"success", message:"bot create"});
     }catch(e){
       console.log("error in create bot= ", e);
       setAlert({open:true ,servirity:"error", message:"bot creation failed!!"});
@@ -214,6 +233,7 @@ export default function CreateBot() {
                 variant="contained"
                 // color="secondary"
                 onClick={createButton}
+                disabled={isUploading}
             > 
                 Create
             </Button>

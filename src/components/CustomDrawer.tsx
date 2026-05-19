@@ -36,6 +36,7 @@ export default function CustomDrawer(
 
         setFiles([...bot.files]);
     },[bot])
+    
     //uploadthing setup 
     const { startUpload, isUploading } = useUploadThing("pdfUploader",{
         onUploadError(e){
