@@ -30,6 +30,7 @@ export default function ManageBots(){
         open:false
       })
 
+      const [selectedBot, setSelectedBot] = useState<any>(null);
       const [isDrawer , setIsDrawer]=useState<boolean>(false);
       const [drawerContent , setDrawerContent]=useState<React.ReactNode>(null);
 
@@ -41,8 +42,12 @@ export default function ManageBots(){
       //menu button
         const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
         const open = Boolean(anchorEl);
-        const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        const handleClick = (
+            event: React.MouseEvent<HTMLElement>,
+            bot: any
+        ) => {
             setAnchorEl(event.currentTarget);
+            setSelectedBot(bot);
         };
         const handleCloseMenu = () => {
             setAnchorEl(null);
@@ -249,7 +254,7 @@ export default function ManageBots(){
                                     aria-controls={open ? 'demo-positioned-menu' : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={open}
-                                    onClick={handleClick}
+                                    onClick={(e) => handleClick(e, bot)}
                                 >
                                     <MoreVertOutlinedIcon />
                                 </IconButton>
@@ -268,7 +273,12 @@ export default function ManageBots(){
                                     horizontal: 'left',
                                     }}
                                 >
-                                    <MenuItem onClick={handleCloseMenu}>View</MenuItem>
+                                    <MenuItem onClick={
+                                        ()=>{
+                                            BotCLick(selectedBot);
+                                            handleCloseMenu();
+                                        }
+                                    }>View</MenuItem>
                                     <MenuItem onClick={handleCloseMenu}>Manage</MenuItem>
                                     <MenuItem onClick={handleCloseMenu}>Delete Bot</MenuItem>
                                 </Menu>
