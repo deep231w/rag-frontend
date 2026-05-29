@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import PdficonSVG from "../assets/icons/pdfIconSVG.svg";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 import { useUploadThing } from "./UploadFileBtn";
 
 
@@ -57,7 +56,8 @@ export default function CreateBot() {
 
       const res =await axios.post(`${import.meta.env.VITE_API_URL}/bot/create`,{
         name:botName,
-        adminId:admin.userId
+        adminId:admin.userId,
+        description:description
       })
 
       console.log("bot create response- ", res);
