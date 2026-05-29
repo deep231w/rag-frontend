@@ -1,4 +1,4 @@
-import { Box, Button, Drawer, IconButton, Input, InputAdornment, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Drawer, IconButton, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useUploadThing } from "./UploadFileBtn";
@@ -29,7 +29,7 @@ export default function CustomDrawer(
     const [file , setFile]=useState<File | null>(null);
 
     //pdf view modal set
-    const [PdfForView ,setPdfForView]=useState<any>();
+    // const [PdfForView ,setPdfForView]=useState<any>();
 
     useEffect(()=>{
         if(!bot?.files) return;
@@ -58,11 +58,14 @@ export default function CustomDrawer(
     //remove file handler 
     const removeFileHandle=async(f:any)=>{
         try{
+            console.log("file- ", f);
             const res=await axios(`${import.meta.env.BASE_URL}/removefile`,{
                 params:{
 
                 }
             })
+
+            console.log("res of remove file -" ,res);
         }catch(e){
             console.log("error in remove file is -", e);
         }
