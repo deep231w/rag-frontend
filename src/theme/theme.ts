@@ -1,7 +1,7 @@
 // src/theme.ts
 import { createTheme } from "@mui/material/styles";
 
-const drawerWidth = 250;
+// const drawerWidth = 250;
 
 export const theme = createTheme({
   palette: {

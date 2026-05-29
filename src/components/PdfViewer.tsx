@@ -1,5 +1,4 @@
 import { Box, Modal, Typography } from "@mui/material";
-import { Document, Page } from 'react-pdf';
 import { pdfjs } from "react-pdf";
 import workerSrc from "pdfjs-dist/build/pdf.worker?url";
 

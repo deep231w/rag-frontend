@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MenuList from '@mui/material/MenuList';
@@ -9,8 +8,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { createTheme } from '@mui/material/styles';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import {
   DashboardLayout,
@@ -25,7 +22,6 @@ import {
 import type { SidebarFooterProps } from '@toolpad/core/DashboardLayout';
 import type { AccountPreviewProps } from '@toolpad/core/Account';
 import type { Navigation, Router, Session } from '@toolpad/core/AppProvider';
-import { DemoProvider } from '@toolpad/core/internal';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
@@ -83,22 +79,22 @@ function CustomToolbarActions() {
   );
 }
 
-function DemoPageContent({ pathname }: { pathname: string }) {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-      }}
-    >
-      {/* <Typography>Dashboard content for {pathname}</Typography> */}
+// function DemoPageContent({ pathname }: { pathname: string }) {
+//   return (
+//     <Box
+//       sx={{
+//         py: 4,
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//         textAlign: 'center',
+//       }}
+//     >
+//       {/* <Typography>Dashboard content for {pathname}</Typography> */}
       
-    </Box>
-  );
-}
+//     </Box>
+//   );
+// }
 function AccountSidebarPreview(props: AccountPreviewProps & { mini: boolean }) {
   const { handleClick, open, mini } = props;
   return (

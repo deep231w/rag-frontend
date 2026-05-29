@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Grid, IconButton, Menu, MenuItem, Paper, Snackbar, Typography, type AlertColor } from "@mui/material";
+import { Alert, Box, Grid, IconButton, Menu, MenuItem, Snackbar, Typography, type AlertColor } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import CustomDrawer from "./CustomDrawer";
@@ -36,7 +36,7 @@ export default function ManageBots(){
 
       //pdf viewer 
       const [isPdfViewerOpen  , setIsPdfViewerOpen]=useState(false);
-      const [viewFile, setViewFile]=useState();
+    //   const [viewFile, setViewFile]=useState();
       const [PdfForView , setPdfForView]=useState<any>();
       
       //menu button
@@ -111,7 +111,7 @@ export default function ManageBots(){
     //on bot click
     function BotCLick(bot:any) {
         console.log("bot clicked -" ,bot)
-        setIsDrawer(true);
+        setIsDrawer(!isDrawer);
         setDrawerContent(
             <CustomDrawer
                 bot={bot}
