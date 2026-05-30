@@ -65,7 +65,7 @@ export default function CreateBot() {
       //uplaod selected files
       if(files.length>0){
         await startUpload(files,{
-          bot:createdBot._id,
+          botId:createdBot._id,
           adminId:admin.userId
         })
       }
