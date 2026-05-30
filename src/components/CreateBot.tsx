@@ -199,7 +199,7 @@ export default function CreateBot() {
               ref={inputRef}
               onChange={handleFileChange}
             />
-            {files.length >0 ?<MultipleFiles files={files} removeFile={removeFile}/>:
+            {files.length >0 ?<MultipleFiles files={files} removeFile={removeFile} onAddMore={() => inputRef.current?.click()}/>:
             
             <Box
                 onDragOver={handleDragOver}
@@ -260,7 +260,13 @@ export default function CreateBot() {
   );
 }
 
-function MultipleFiles({files,removeFile}:{files:File[] ,removeFile:(index:number)=>void}){
+function MultipleFiles(
+  {files,removeFile , onAddMore}:
+  { files:File[],
+    removeFile:(index:number)=>void,
+    onAddMore:()=>void }
+  ){
+
   return (
 <Box
   sx={{
@@ -344,7 +350,7 @@ function MultipleFiles({files,removeFile}:{files:File[] ,removeFile:(index:numbe
   ))}
 
   <Box
-    // onClick={openFilePicker}
+    onClick={onAddMore}
     sx={{
       width: 140,
       minHeight: 140,
