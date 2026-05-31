@@ -78,13 +78,13 @@ export const theme = createTheme({
       },
     },
 
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          color: "#e2e8f0",
-        },
-      },
-    },
+    // MuiTypography: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: "#e2e8f0",
+    //     },
+    //   },
+    // },
 
   MuiButton: {
     styleOverrides: {

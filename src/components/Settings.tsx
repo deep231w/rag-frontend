@@ -28,7 +28,7 @@ export default function Settings() {
   useEffect(()=>{
     fetchConfig()
   },[])
-  
+
   return (
     <Box
       sx={{
@@ -217,6 +217,14 @@ export default function Settings() {
               </Typography>
             </Box>
 
+            <Typography
+              variant="caption"
+              color="error"
+              sx={{ display: "block", mb:2}}
+            >
+              * For now we only support Gemini embeddings, with "gemini-embedding-001" model
+            </Typography>
+
             <Box
               sx={{
                 display: "flex",
@@ -226,8 +234,8 @@ export default function Settings() {
             >
               <TextField
                 fullWidth
-                label="Embedding API Key"
-                placeholder="Enter embedding provider key"
+                label="Gemini Embedding API Key"
+                placeholder="Enter embedding provider key "
 
                 InputProps={{
                   startAdornment: (
@@ -247,12 +255,16 @@ export default function Settings() {
                 fullWidth
                 label="Embedding Model"
                 placeholder="text-embedding-3-small"
+                defaultValue="gemini-embedding-001"
+                disabled
               />
 
               <TextField
                 fullWidth
-                label="Vector Database"
-                placeholder="Pinecone / Weaviate / Chroma"
+                label="Service"
+                placeholder="Gemini / openai /claude"
+                defaultValue="Gemini"
+                disabled
               />
             </Box>
           </Paper>
