@@ -60,7 +60,7 @@ export  default function MainDrawer(){
                                 <Icon />
                                 </ListItemIcon>
 
-                                <ListItemText primary={item.name} />
+                                <ListItemText sx={{color: "white"}} primary={item.name} />
                             </ListItemButton>
                             </ListItem>
                         </Box>
