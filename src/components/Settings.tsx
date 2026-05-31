@@ -5,7 +5,6 @@ import {
   TextField,
   Typography,
   InputAdornment,
-  Menu,
   MenuItem,
 } from "@mui/material";
 
@@ -19,18 +18,18 @@ import axios from "axios";
 export default function Settings() {
 
   const [provider, setProvider] = useState("gemini");
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const open = Boolean(anchorEl);
+  // const open = Boolean(anchorEl);
   // const handleClick = (
   //         event: React.MouseEvent<HTMLElement>,
   //     ) => {
   //         setAnchorEl(event.currentTarget);
   // };
 
-  const handleCloseMenu = () => {
-          setAnchorEl(null);
-  };
+  // const handleCloseMenu = () => {
+  //         setAnchorEl(null);
+  // };
 
   async function fetchConfig () {
       try{
