@@ -11,8 +11,24 @@ import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Settings() {
+    async function fetchConfig () {
+      try{
+        const res=  await axios.get(`${import.meta.env.VITE_API_URL}/confg/getconfig`)
+
+        console.log("res of fetch confg-", res);
+
+    }catch(e){
+      console.log("error in fetch config- ", e);
+    }
+  }
+  useEffect(()=>{
+    fetchConfig()
+  },[])
+  
   return (
     <Box
       sx={{
