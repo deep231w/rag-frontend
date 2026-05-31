@@ -5,17 +5,34 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Settings() {
-    async function fetchConfig () {
+
+  const [provider, setProvider] = useState("gemini");
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl);
+  // const handleClick = (
+  //         event: React.MouseEvent<HTMLElement>,
+  //     ) => {
+  //         setAnchorEl(event.currentTarget);
+  // };
+
+  const handleCloseMenu = () => {
+          setAnchorEl(null);
+  };
+
+  async function fetchConfig () {
       try{
         const res=  await axios.get(`${import.meta.env.VITE_API_URL}/confg/getconfig`)
 
@@ -122,28 +139,28 @@ export default function Settings() {
                 gap: 2.5,
               }}
             >
-              <TextField
-                fullWidth
-                label="OpenAI API Key"
-                placeholder="sk-xxxxxxxx"
-
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <KeyOutlinedIcon
-                        sx={{
-                          color:
-                            "rgba(255,255,255,0.4)",
-                        }}
-                      />
-                    </InputAdornment>
-                  ),
-                }}
-              />
 
               <TextField
+                select
                 fullWidth
-                label="Claude API Key"
+                label="LLM Provider"
+                value={provider}
+                onChange={(e) =>
+                  setProvider(e.target.value)
+                }
+              >
+                <MenuItem value="openai">
+                  OpenAI
+                </MenuItem>
+
+                <MenuItem value="gemini">
+                  Gemini
+                </MenuItem>
+              </TextField>
+
+              <TextField
+                fullWidth
+                label="API Key"
                 placeholder="sk-ant-xxxxxxxx"
 
                 InputProps={{
@@ -162,8 +179,8 @@ export default function Settings() {
 
               <TextField
                 fullWidth
-                label="Gemini API Key"
-                placeholder="AIzaSyxxxxxxxx"
+                label="Model"
+                placeholder="gemini-embedding-001"
 
                 InputProps={{
                   startAdornment: (
