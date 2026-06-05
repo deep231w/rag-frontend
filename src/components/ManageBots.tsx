@@ -118,6 +118,7 @@ export default function ManageBots(){
                 onClose={()=>setDrawerContent(null)}
                 isOpenPdf={()=>setIsPdfViewerOpen(true)}
                 setPdfFile={handleSetPdfFileForView}
+                admin={admin}
             />
         )
         

@@ -15,18 +15,37 @@ export default function CustomDrawer(
         bot ,
         onClose ,
         isOpenPdf , 
-        setPdfFile
+        setPdfFile,
+        admin
     }:{
         bot:any , 
         onClose:()=>void ,
         isOpenPdf:()=>void,
-        setPdfFile:(data:any)=>void
+        setPdfFile:(data:any)=>void,
+        admin:string
     }){
 
     console.log("bot in custom Drawer - ", bot)
     const [files , setFiles]=useState<FileType[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [file , setFile]=useState<File | null>(null);
+
+    //AI question Query
+    const [question , setQuestion ]= useState<string | null>(null);
+    
+    const handleAiQuestionQuery = ()=>{
+        if(!question || !bot || !admin){
+                console.log("creds missing during handle Question query")
+                // throw new Error("Credential missing in AI query")
+                return
+        }
+
+        try{
+
+        }catch(e){
+            console.log("error in handle Ai Question query")
+        }
+    }
 
     //pdf view modal set
     // const [PdfForView ,setPdfForView]=useState<any>();
@@ -220,10 +239,13 @@ export default function CustomDrawer(
                                 variant="outlined"
                                 size="small"  
                                 fullWidth  
+                                onChange={(e)=>setQuestion(e.target.value)}
                             />
                             <Button
                                 variant="contained"
                                 color="secondary"
+                                onClick={handleAiQuestionQuery}
+                                disabled={!question}
                             >Send</Button>
                         </Box>
                         
