@@ -22,7 +22,7 @@ export default function CustomDrawer(
         onClose:()=>void ,
         isOpenPdf:()=>void,
         setPdfFile:(data:any)=>void,
-        admin:string
+        admin:any
     }){
 
     console.log("bot in custom Drawer - ", bot)
@@ -40,18 +40,36 @@ export default function CustomDrawer(
         }
     ])
 
-    
+
     //AI question Query
     const [question , setQuestion ]= useState<string | null>(null);
     
-    const handleAiQuestionQuery = ()=>{
+    const handleAiQuestionQuery = async ()=>{
         if(!question || !bot || !admin){
                 console.log("creds missing during handle Question query")
                 // throw new Error("Credential missing in AI query")
                 return
         }
 
+        const newConvElemen= {
+            role:"user",
+            content:question
+        }
+
+        setMessages([...messages ,newConvElemen]);
+        setQuestion(null);
+
         try{
+
+            const res=  await axios.post(`${import.meta.env.VITE_API_URL}/askai`,{
+                params:{
+                    botId:bot._id,
+                    adminId:admin._id,
+                    question:question
+                }
+            });
+
+            console.log("response of ai- " ,res);
 
         }catch(e){
             console.log("error in handle Ai Question query")
