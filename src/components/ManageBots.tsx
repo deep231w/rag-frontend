@@ -281,6 +281,7 @@ export default function ManageBots(){
                                         }
                                     }>View</MenuItem>
                                     <MenuItem onClick={handleCloseMenu}>Manage</MenuItem>
+                                    <MenuItem onClick={handleCloseMenu}>Export</MenuItem>
                                     <MenuItem onClick={handleCloseMenu}>Delete Bot</MenuItem>
                                 </Menu>
                             </Box>
