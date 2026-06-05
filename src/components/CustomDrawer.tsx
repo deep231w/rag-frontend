@@ -29,6 +29,7 @@ export default function CustomDrawer(
     const [files , setFiles]=useState<FileType[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [file , setFile]=useState<File | null>(null);
+    
     const [messages ,setMessages]=useState([
         {
             role:"user",
@@ -57,22 +58,31 @@ export default function CustomDrawer(
         }
 
         setMessages([...messages ,newConvElemen]);
-        setQuestion(null);
+        setQuestion('');
 
         try{
-
+            console.log("bot and admin id- ", bot, admin)
             const res=  await axios.post(`${import.meta.env.VITE_API_URL}/askai`,{
-                params:{
-                    botId:bot._id,
-                    adminId:admin._id,
+                    botId:bot.id,
+                    adminId:admin.userId,
                     question:question
-                }
             });
 
             console.log("response of ai- " ,res);
+            const ans=  res.data.answer;
+            console.log("ans of ai -", ans);
+
+            setMessages(prev=>[
+                ...prev,
+                {
+                    role:"assistant",
+                    content:ans
+                }
+            ])
+            
 
         }catch(e){
-            console.log("error in handle Ai Question query")
+            console.log("error in handle Ai Question query",e)
         }
     }
 
@@ -263,18 +273,20 @@ export default function CustomDrawer(
                     </Typography>
                     <Box sx={{display:"flex" ,flexDirection:"column" , gap:1}}>
                         <Paper
-                            sx={{color:"gray" , height:"490px" , display:"flex" ,flexDirection: "column",}}
+                            sx={{color:"gray" , height:"490px" , display:"flex" ,flexDirection: "column",overflowY: "auto",}}
                         >
                             {messages.map((m ,i)=>(
                                 <Box
                                     key={i}
                                     sx={{
+                                        
+                                        p: 2,
+                                        display: "flex",
+                                        flexDirection: "column",
                                         m:2,
                                         alignSelf:
                                             m.role === "user"
                                             ?"flex-end": "flex-start",
-                                        p: 2,
-
                                         borderRadius: 2,
 
                                         bgcolor:
@@ -298,6 +310,7 @@ export default function CustomDrawer(
                                 variant="outlined"
                                 size="small"  
                                 fullWidth  
+                                value={question}
                                 onChange={(e)=>setQuestion(e.target.value)}
                             />
                             <Button
