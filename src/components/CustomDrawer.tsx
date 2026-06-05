@@ -263,9 +263,34 @@ export default function CustomDrawer(
                     </Typography>
                     <Box sx={{display:"flex" ,flexDirection:"column" , gap:1}}>
                         <Paper
-                            sx={{color:"gray" , height:"490px"}}
+                            sx={{color:"gray" , height:"490px" , display:"flex" ,flexDirection: "column",}}
                         >
+                            {messages.map((m ,i)=>(
+                                <Box
+                                    key={i}
+                                    sx={{
+                                        m:2,
+                                        alignSelf:
+                                            m.role === "user"
+                                            ?"flex-end": "flex-start",
+                                        p: 2,
 
+                                        borderRadius: 2,
+
+                                        bgcolor:
+                                        m.role === "user"
+                                            ? "primary.main"
+                                            : "grey.200",
+
+                                        color:
+                                        m.role === "user"
+                                            ? "white"
+                                            : "black",
+                                    }}
+                                >
+                                    {m.content}
+                                </Box>
+                            ))}
                         </Paper>
                         <Box sx={{display:"flex" , flexDirection:"row" , gap:2}}>
                             <TextField
