@@ -29,7 +29,18 @@ export default function CustomDrawer(
     const [files , setFiles]=useState<FileType[]>([]);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [file , setFile]=useState<File | null>(null);
+    const [messages ,setMessages]=useState([
+        {
+            role:"user",
+            content:"hello"
+        },
+        {
+            role: "assistant",
+            content:"Hi! How can I help you ?"
+        }
+    ])
 
+    
     //AI question Query
     const [question , setQuestion ]= useState<string | null>(null);
     
@@ -226,7 +237,12 @@ export default function CustomDrawer(
 
                 {/* test chat performance */}
                 <Box sx={{display:"flex" , pt:3 , flexDirection:"column" , gap:2}}>
-                    <Typography sx={{textAlign:"left"}} color="gray" variant="h6">Test {bot.botName}'s Response</Typography>
+                    <Typography sx={{textAlign:"left"}} color="" variant="h6">
+                        Chat With  {" "}
+                            <Box component="span" sx={{ fontWeight: 700, color: "primary.main" }}>
+                                {bot.botName}
+                            </Box>
+                    </Typography>
                     <Box sx={{display:"flex" ,flexDirection:"column" , gap:1}}>
                         <Paper
                             sx={{color:"gray" , height:"490px"}}
