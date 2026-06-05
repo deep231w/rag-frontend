@@ -285,21 +285,7 @@ export default function ManageBots(){
                                     <MenuItem onClick={handleCloseMenu}>Delete Bot</MenuItem>
                                 </Menu>
                             </Box>
-                            </Box>
-                            {/* <Button
-                                fullWidth
-                                onClick={()=>BotCLick(bot)}
-                            >
-                                <Paper sx={{p:3 ,width:"100%"}}>
-
-                                    <Typography
-                                        variant="h6"
-                                    >
-                                        {bot.botName}
-                                    </Typography>
-                                </Paper>
-                            </Button> */}
-                            
+                            </Box>                            
                         </Grid>
                     ))):(
                         <Box
