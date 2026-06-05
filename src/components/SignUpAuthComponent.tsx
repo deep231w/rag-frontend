@@ -1,7 +1,7 @@
 import { Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUpAuthComponent(){
     const navigate= useNavigate();
@@ -80,7 +80,13 @@ export default function SignUpAuthComponent(){
                         >
                             Sign Up
                         </Button>
+                        
+                        <Box display={"flex"}  justifyContent={"center"} alignItems={"center"}>
+                            <Typography>Having Account ? <Link to={"/signin"} >SignIn</Link></Typography>
+                        </Box>
+                        
                     </Paper>    
+
                 </Container>
         </Box>
     )
