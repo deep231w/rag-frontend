@@ -1,5 +1,5 @@
-import { Box, Container, Paper } from "@mui/material";
-import AuthComponent from "../components/SignUpAuthComponent";
+import { Box, Container } from "@mui/material";
+import SignUpAuthComponent from "../components/SignUpAuthComponent";
 
 export default function SignUp(){
 
@@ -8,14 +8,12 @@ export default function SignUp(){
             sx={{
                 height:"100vh",
                 display:"flex",
-                alignItems:"center",
-                alignContent:"center"
+                justifyContent:"center",
+                alignItems:"center"
             }}
         >
             <Container maxWidth="sm">
-                <Paper elevation={8} sx={{p:4}}>
-                    <AuthComponent/>
-                </Paper>
+                    <SignUpAuthComponent/>
             </Container>
             
         </Box>

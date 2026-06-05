@@ -1,4 +1,4 @@
-import { Box, Container, Paper } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import SignInAuthComponent from "../components/SignInComponent";
 
 export default function SignIn(){
@@ -12,10 +12,8 @@ export default function SignIn(){
             }}
         >
             <Container maxWidth="sm">
-                <Paper elevation={8} sx={{p:4}}>
                     <SignInAuthComponent/>
-                </Paper>
-            </Container>           
+           </Container>           
         </Box>
 
     )
