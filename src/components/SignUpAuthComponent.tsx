@@ -27,7 +27,7 @@ export default function SignUpAuthComponent(){
             if(response.status==200){
                 localStorage.setItem("admin", JSON.stringify(response.data.admin));
                 localStorage.setItem("token", response.data.token);
-                navigate("/home")
+                navigate("/home/dashboard")
                 console.log("admin loggedin successfully");
             }
 
