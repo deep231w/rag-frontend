@@ -6,6 +6,7 @@ import {
   Container,
   IconButton,
   InputAdornment,
+  Link,
   Paper,
   Stack,
   TextField,
@@ -158,6 +159,13 @@ export default function SignInAuthComponent() {
                 "Sign In"
               )}
             </Button>
+
+            <Typography variant="body2" sx={{ textAlign: "center", color: "#9AA4B2" }}>
+              Don’t have an account?{" "}
+              <Link href="/signup" underline="hover" sx={{ color: "#E4B72C", fontWeight: 600 }}>
+                Create one
+              </Link>
+            </Typography>
           </Stack>
         </Paper>
       </Container>
