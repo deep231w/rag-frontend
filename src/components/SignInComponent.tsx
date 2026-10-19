@@ -22,8 +22,8 @@ import { setStoredAuth } from "../auth";
 export default function SignInAuthComponent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@account.com");
+  const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

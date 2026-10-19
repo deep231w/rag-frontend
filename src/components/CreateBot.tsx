@@ -74,6 +74,9 @@ export default function CreateBot() {
       }
 
       setSuccess(true);
+      setBotName('')
+      setFiles([])
+      setDescription('')
       setAlert({ open: true, servirity: "success", message: "bot create" });
     } catch (e) {
       console.log("error in create bot= ", e);
@@ -204,7 +207,7 @@ export default function CreateBot() {
               variant="contained"
               color="primary"
               onClick={createButton}
-              disabled={isUploading || !botName || files.length === 0}
+              disabled={isUploading || !botName}
               sx={{ minWidth: 168 }}
             >
               {isUploading ? "Uploading..." : "Create Bot"}
