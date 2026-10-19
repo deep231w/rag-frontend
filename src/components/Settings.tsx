@@ -7,21 +7,29 @@ import {
   Typography,
   InputAdornment,
   MenuItem,
+  Stack,
 } from "@mui/material";
 
 import KeyOutlinedIcon from "@mui/icons-material/KeyOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { RenderColdStartNotice, useRenderColdStartNotice } from "./RequestLoadingNotice";
+import { clearStoredAuth, getStoredAdmin } from "../auth";
 
 export default function Settings() {
+  const navigate = useNavigate();
   const [provider, setProvider] = useState("gemini");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const slowNoticeVisible = useRenderColdStartNotice(loading || saving);
+  const [logoutLoading, setLogoutLoading] = useState(false);
+  const slowNoticeVisible = useRenderColdStartNotice(loading || saving || logoutLoading);
+  const admin = getStoredAdmin();
 
   async function fetchConfig() {
     setLoading(true);
@@ -49,6 +57,30 @@ export default function Settings() {
       console.log("save config failed", error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    if (logoutLoading) return;
+
+    setLogoutLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          await axios.post(`${import.meta.env.VITE_API_URL}/admin/logout`, {
+            token,
+          });
+        } catch (error) {
+          console.info("Server logout unavailable or ignored; continuing local session cleanup.", error);
+        }
+      }
+
+      clearStoredAuth();
+      navigate("/signin", { replace: true });
+    } finally {
+      setLogoutLoading(false);
     }
   };
 
@@ -259,6 +291,59 @@ export default function Settings() {
             </Box>
           </Paper>
         </Box>
+
+        <Paper
+          elevation={0}
+          sx={{
+            mt: 4,
+            p: 3,
+            borderRadius: 3,
+            backgroundColor: "#1B2028",
+            border: "1px solid #303744",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1.5 }}>
+            <PersonOutlineOutlinedIcon sx={{ color: "#E4B72C" }} />
+            <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: "-0.03em" }}>
+              Account
+            </Typography>
+          </Box>
+
+          <Typography variant="body2" sx={{ color: "#9AA4B2", mb: 2 }}>
+            Manage the current authenticated session for this administration workspace.
+          </Typography>
+
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ alignItems: { xs: "stretch", sm: "center" }, justifyContent: "space-between" }}>
+            <Box>
+              <Typography variant="caption" sx={{ color: "#9AA4B2", textTransform: "uppercase", letterSpacing: 1.1 }}>
+                Signed in as
+              </Typography>
+              <Typography sx={{ fontWeight: 600, mt: 0.5 }}>
+                {admin?.email || "Current administrator"}
+              </Typography>
+            </Box>
+
+            <Button
+              variant="outlined"
+              color="warning"
+              startIcon={logoutLoading ? <CircularProgress size={16} sx={{ color: "#E4B72C" }} /> : <LogoutOutlinedIcon />}
+              onClick={handleLogout}
+              disabled={logoutLoading}
+              sx={{
+                borderColor: "rgba(228, 183, 44, 0.4)",
+                color: "#E4B72C",
+                backgroundColor: "rgba(228, 183, 44, 0.04)",
+                px: 2.5,
+                py: 1,
+                borderRadius: 2,
+                fontWeight: 700,
+                "&:hover": { borderColor: "#E4B72C", backgroundColor: "rgba(228, 183, 44, 0.1)" },
+              }}
+            >
+              {logoutLoading ? "Logging out..." : "Logout"}
+            </Button>
+          </Stack>
+        </Paper>
 
         <Box
           sx={{

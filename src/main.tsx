@@ -8,6 +8,9 @@ import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/700.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme/theme.ts';
+import { initializeAuth } from './auth';
+
+initializeAuth();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,6 +18,5 @@ createRoot(document.getElementById('root')!).render(
       <CssBaseline/>
       <App />
     </ThemeProvider>
-    
   </StrictMode>,
 )
