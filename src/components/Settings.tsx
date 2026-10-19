@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Paper,
   TextField,
   Typography,
@@ -14,29 +15,47 @@ import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { RenderColdStartNotice, useRenderColdStartNotice } from "./RequestLoadingNotice";
 
 export default function Settings() {
-
   const [provider, setProvider] = useState("gemini");
-  async function fetchConfig () {
-      try{
-        const res=  await axios.get(`${import.meta.env.VITE_API_URL}/confg/getconfig`)
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const slowNoticeVisible = useRenderColdStartNotice(loading || saving);
 
-        console.log("res of fetch confg-", res);
-
-    }catch(e){
+  async function fetchConfig() {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/confg/getconfig`);
+      console.log("res of fetch confg-", res);
+    } catch (e) {
       console.log("error in fetch config- ", e);
+    } finally {
+      setLoading(false);
     }
   }
-  useEffect(()=>{
-    fetchConfig()
-  },[])
+
+  useEffect(() => {
+    fetchConfig();
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/confg/saveconfig`, {
+        provider,
+      });
+    } catch (error) {
+      console.log("save config failed", error);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <Box
       sx={{
         p: 4,
-
         display: "flex",
         justifyContent: "center",
       }}
@@ -47,7 +66,6 @@ export default function Settings() {
           maxWidth: 950,
         }}
       >
-        {/* Header */}
         <Box mb={4}>
           <Typography
             variant="h3"
@@ -71,7 +89,14 @@ export default function Settings() {
           </Typography>
         </Box>
 
-        {/* Main Grid */}
+        {loading && (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25, mb: 2.5, color: "#9AA4B2" }}>
+            <CircularProgress size={18} thickness={5} sx={{ color: "#E4B72C" }} />
+            <Typography variant="body2">Loading configuration…</Typography>
+          </Box>
+        )}
+        <RenderColdStartNotice visible={slowNoticeVisible} />
+
         <Box
           sx={{
             display: "grid",
@@ -82,19 +107,13 @@ export default function Settings() {
             gap: 3,
           }}
         >
-          {/* LLM Card */}
           <Paper
             elevation={0}
             sx={{
               p: 3,
               borderRadius: 5,
-
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
-
-              border:
-                "1px solid rgba(255,255,255,0.08)",
-
+              background: "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+              border: "1px solid rgba(255,255,255,0.08)",
               backdropFilter: "blur(10px)",
             }}
           >
@@ -125,39 +144,25 @@ export default function Settings() {
                 gap: 2.5,
               }}
             >
-
               <TextField
                 select
                 fullWidth
                 label="LLM Provider"
                 value={provider}
-                onChange={(e) =>
-                  setProvider(e.target.value)
-                }
+                onChange={(e) => setProvider(e.target.value)}
               >
-                <MenuItem value="openai">
-                  OpenAI
-                </MenuItem>
-
-                <MenuItem value="gemini">
-                  Gemini
-                </MenuItem>
+                <MenuItem value="openai">OpenAI</MenuItem>
+                <MenuItem value="gemini">Gemini</MenuItem>
               </TextField>
 
               <TextField
                 fullWidth
                 label="API Key"
                 placeholder="sk-ant-xxxxxxxx"
-
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <KeyOutlinedIcon
-                        sx={{
-                          color:
-                            "rgba(255,255,255,0.4)",
-                        }}
-                      />
+                      <KeyOutlinedIcon sx={{ color: "rgba(255,255,255,0.4)" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -167,16 +172,10 @@ export default function Settings() {
                 fullWidth
                 label="Model"
                 placeholder="gemini-embedding-001"
-
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <KeyOutlinedIcon
-                        sx={{
-                          color:
-                            "rgba(255,255,255,0.4)",
-                        }}
-                      />
+                      <KeyOutlinedIcon sx={{ color: "rgba(255,255,255,0.4)" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -184,19 +183,13 @@ export default function Settings() {
             </Box>
           </Paper>
 
-          {/* Embedding Card */}
           <Paper
             elevation={0}
             sx={{
               p: 3,
               borderRadius: 5,
-
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
-
-              border:
-                "1px solid rgba(255,255,255,0.08)",
-
+              background: "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
+              border: "1px solid rgba(255,255,255,0.08)",
               backdropFilter: "blur(10px)",
             }}
           >
@@ -223,7 +216,7 @@ export default function Settings() {
             <Typography
               variant="caption"
               color="error"
-              sx={{ display: "block", mb:2}}
+              sx={{ display: "block", mb: 2 }}
             >
               * For now we only support Gemini embeddings, with "gemini-embedding-001" model
             </Typography>
@@ -239,16 +232,10 @@ export default function Settings() {
                 fullWidth
                 label="Gemini Embedding API Key"
                 placeholder="Enter embedding provider key "
-
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <KeyOutlinedIcon
-                        sx={{
-                          color:
-                            "rgba(255,255,255,0.4)",
-                        }}
-                      />
+                      <KeyOutlinedIcon sx={{ color: "rgba(255,255,255,0.4)" }} />
                     </InputAdornment>
                   ),
                 }}
@@ -273,11 +260,9 @@ export default function Settings() {
           </Paper>
         </Box>
 
-        {/* Bottom Save */}
         <Box
           sx={{
             mt: 4,
-
             display: "flex",
             justifyContent: "flex-end",
           }}
@@ -285,14 +270,16 @@ export default function Settings() {
           <Button
             variant="contained"
             size="large"
-            startIcon={<SaveOutlinedIcon />}
+            startIcon={saving ? <CircularProgress size={16} sx={{ color: "#101318" }} /> : <SaveOutlinedIcon />}
             sx={{
               px: 4,
               height: 50,
               borderRadius: 3,
             }}
+            onClick={handleSave}
+            disabled={saving}
           >
-            Save Configuration
+            {saving ? "Saving..." : "Save Configuration"}
           </Button>
         </Box>
       </Box>

@@ -1,13 +1,33 @@
 import { AppBar, Box, Drawer, IconButton, Toolbar, Typography } from "@mui/material";
-import MenuIcon from "../../assets/icons/MenuIcon";
-import { useMemo, useState } from "react";
-import MainDrawer from "../../components/Drawer/Drawer";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import MenuIcon from "../../assets/icons/MenuIcon";
+import MainDrawer from "../../components/Drawer/Drawer";
 
 export default function NewHome() {
-  const [openDrawer, setOpenDrawer] = useState(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [openDrawer, setOpenDrawer] = useState<boolean>(!isMobile);
   const location = useLocation();
   const drawerWidth = 248;
+
+  useEffect(() => {
+    setOpenDrawer(!isMobile);
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    document.body.style.overflow = openDrawer ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobile, openDrawer]);
 
   const pageTitle = useMemo(() => {
     const segment = location.pathname.split("/").filter(Boolean).at(-1) ?? "dashboard";
@@ -31,8 +51,8 @@ export default function NewHome() {
           borderBottom: "1px solid #303744",
           boxShadow: "none",
           transition: "all 0.2s ease",
-          ml: openDrawer ? `${drawerWidth}px` : 0,
-          width: openDrawer ? `calc(100% - ${drawerWidth}px)` : "100%",
+          ml: isMobile ? 0 : openDrawer ? `${drawerWidth}px` : 0,
+          width: isMobile ? "100%" : openDrawer ? `calc(100% - ${drawerWidth}px)` : "100%",
         }}
       >
         <Toolbar sx={{ minHeight: 68, px: { xs: 2, sm: 3 } }}>
@@ -66,20 +86,22 @@ export default function NewHome() {
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         anchor="left"
-        variant="persistent"
+        variant={isMobile ? "temporary" : "persistent"}
+        ModalProps={{ keepMounted: isMobile }}
         sx={{
-          width: drawerWidth,
+          width: isMobile ? "100%" : drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: drawerWidth,
+            width: isMobile ? "min(80vw, 280px)" : drawerWidth,
             boxSizing: "border-box",
             backgroundColor: "#151920",
-            borderRight: "1px solid #303744",
+            borderRight: isMobile ? "none" : "1px solid #303744",
             borderRadius: 0,
-            boxShadow: "none",
+            boxShadow: isMobile ? "0 16px 40px rgba(0,0,0,0.45)" : "none",
             top: 0,
             height: "100vh",
-            p: 1.5,
+            p: 0,
+            maxWidth: "100vw",
           },
         }}
       >
@@ -91,7 +113,7 @@ export default function NewHome() {
         sx={{
           minHeight: "100vh",
           transition: "all 0.2s ease",
-          pl: openDrawer ? `${drawerWidth}px` : 0,
+          pl: isMobile ? 0 : openDrawer ? `${drawerWidth}px` : 0,
           pt: 8,
         }}
       >

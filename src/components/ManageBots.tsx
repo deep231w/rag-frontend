@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  CircularProgress,
   Grid,
   IconButton,
   Menu,
@@ -15,6 +16,7 @@ import CustomDrawer from "./CustomDrawer";
 import { PdfViewer } from "./PdfViewer";
 import BotIcon from "../assets/icons/BotIcon";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import { RenderColdStartNotice, useRenderColdStartNotice } from "./RequestLoadingNotice";
 
 export default function ManageBots() {
   const admin = JSON.parse(localStorage.getItem("admin") || "null");
@@ -28,6 +30,9 @@ export default function ManageBots() {
       files: { id: string; fileName: string; url: string }[];
     }[]
   >([]);
+
+  const [loading, setLoading] = useState(false);
+  const slowNoticeVisible = useRenderColdStartNotice(loading);
 
   const [alert, setAlert] = useState<{
     message: string;
@@ -60,22 +65,20 @@ export default function ManageBots() {
   async function fetchBots() {
     if (!admin) {
       setAlert({ open: true, servirity: "warning", message: "please login again" });
-      console.log("admin doesnot exist");
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/bot/getbotsdata`, {
-        params: {
-          adminId: admin.userId,
-        },
+        params: { adminId: admin.userId },
         headers: {
           "ngrok-skip-browser-warning": "true",
           Accept: "application/json",
         },
       });
 
-      console.log("response of bots - ", response.data);
       const botsdata = response.data.bots.map((bot: any) => ({
         id: bot._id,
         adminId: bot.adminId,
@@ -90,6 +93,8 @@ export default function ManageBots() {
       setBots(botsdata);
     } catch (e) {
       console.log("error in fetch bots -", e);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -106,7 +111,6 @@ export default function ManageBots() {
   };
 
   function BotCLick(bot: any) {
-    console.log("bot clicked -", bot);
     setIsDrawer(!isDrawer);
     setDrawerContent(
       <CustomDrawer
@@ -129,6 +133,14 @@ export default function ManageBots() {
           Review your configured bot collections and manage document access.
         </Typography>
       </Box>
+
+      {loading && (
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, color: "#9AA4B2" }}>
+          <CircularProgress size={18} thickness={5} sx={{ color: "#E4B72C" }} />
+          <Typography variant="body2">Loading bots…</Typography>
+        </Box>
+      )}
+      <RenderColdStartNotice visible={slowNoticeVisible} />
 
       <Grid container spacing={2}>
         {bots.length >= 1 ? (
@@ -232,7 +244,7 @@ export default function ManageBots() {
                 color: "#9AA4B2",
               }}
             >
-              No bots found.
+              {loading ? "Loading bots..." : "No bots found."}
             </Box>
           </Grid>
         )}
