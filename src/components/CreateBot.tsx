@@ -1,4 +1,13 @@
-import { Alert, Box, Button, IconButton, Snackbar, TextField, Typography, type AlertColor } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  Snackbar,
+  TextField,
+  Typography,
+  type AlertColor,
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
@@ -8,92 +17,84 @@ import { useUploadThing } from "./UploadFileBtn";
 
 
 export default function CreateBot() {
-  const admin= JSON.parse(localStorage.getItem("admin") || "null");
+  const admin = JSON.parse(localStorage.getItem("admin") || "null");
 
-  const [botName , setBotName]=useState<string>("");
-  const [success, setSuccess]=useState<boolean>(false);
-  const [description  ,setDescription]=useState<string | null>(null);
-  const [files , setFiles]=useState<File[] >([]);
-  const [dragging , setDragging]=useState(false);
+  const [botName, setBotName] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
+  const [description, setDescription] = useState<string | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const [dragging, setDragging] = useState(false);
 
-  const inputRef= useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const [alert , setAlert]=useState<{
-    message:string,
-    servirity:AlertColor,
-    open:boolean
+  const [alert, setAlert] = useState<{
+    message: string;
+    servirity: AlertColor;
+    open: boolean;
   }>({
-    message:"", 
-    servirity:"info",
-    open:false
-  })
+    message: "",
+    servirity: "info",
+    open: false,
+  });
 
-      //uploadthing setup 
-    const { startUpload, isUploading } = useUploadThing("pdfUploader",{
-        onUploadError(e){
-            console.log("error in upload error =", e);
-        },
-        onUploadBegin(fileName) {
-          console.log("upload started file name -", fileName);  
-        },
-    });
+  const { startUpload, isUploading } = useUploadThing("pdfUploader", {
+    onUploadError(e) {
+      console.log("error in upload error =", e);
+    },
+    onUploadBegin(fileName) {
+      console.log("upload started file name -", fileName);
+    },
+  });
 
-  //file 
   function removeFile(indexToRemove: number) {
-  setFiles((prev) =>
-    prev.filter((_, index) => index !== indexToRemove)
-  );
+    setFiles((prev) => prev.filter((_, index) => index !== indexToRemove));
   }
 
   async function createButton() {
-    console.log("admin is = ", admin)
+    console.log("admin is = ", admin);
 
-    if(!botName || !admin ){
+    if (!botName || !admin) {
       console.log("error , missing creds");
       return;
     }
-    try{
-
-      const res =await axios.post(`${import.meta.env.VITE_API_URL}/bot/create`,{
-        name:botName,
-        adminId:admin.userId,
-        description:description
-      })
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/bot/create`, {
+        name: botName,
+        adminId: admin.userId,
+        description: description,
+      });
 
       console.log("bot create response- ", res);
-      const createdBot= res.data.bot;
-      //uplaod selected files
-      if(files.length>0){
-        await startUpload(files,{
-          botId:createdBot._id,
-          adminId:admin.userId
-        })
+      const createdBot = res.data.bot;
+      if (files.length > 0) {
+        await startUpload(files, {
+          botId: createdBot._id,
+          adminId: admin.userId,
+        });
       }
 
-      setSuccess(true)
-      setAlert({open:true ,servirity:"success", message:"bot create"});
-    }catch(e){
+      setSuccess(true);
+      setAlert({ open: true, servirity: "success", message: "bot create" });
+    } catch (e) {
       console.log("error in create bot= ", e);
-      setAlert({open:true ,servirity:"error", message:"bot creation failed!!"});
+      setAlert({ open: true, servirity: "error", message: "bot creation failed!!" });
     }
   }
 
-  function handleClose (){
+  function handleClose() {
     setSuccess(false);
   }
 
   useEffect(() => {
-      if (success) {
-        const timer = setTimeout(() => {
-          setSuccess(false);
-        }, 3000);
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
 
-        return () => clearTimeout(timer);
-      }
-    }, [success]);
+      return () => clearTimeout(timer);
+    }
+  }, [success]);
 
-
-  //handle file 
   function handleDragOver(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
     setDragging(true);
@@ -105,29 +106,20 @@ export default function CreateBot() {
 
   function handleDrop(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
-
     setDragging(false);
 
     const selectedFiles = e.dataTransfer.files;
 
     if (selectedFiles) {
       const filesArray = Array.from(selectedFiles);
-
       setFiles((prev) => {
         const newFiles = [...prev, ...filesArray];
-
-        return newFiles.filter(
-          (file, index, self) =>
-            index === self.findIndex((f) => f.name === file.name)
-        );
+        return newFiles.filter((file, index, self) => index === self.findIndex((f) => f.name === file.name));
       });
-      // console.log("Dropped file:", droppedFile);\
     }
   }
-  
-  function handleFileChange(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selectedFiles = e.target.files;
 
     if (selectedFiles) {
@@ -135,262 +127,182 @@ export default function CreateBot() {
 
       setFiles((prev) => {
         const newFiles = [...prev, ...filesArray];
-
-        return newFiles.filter(
-          (file, index, self) =>
-            index === self.findIndex((f) => f.name === file.name)
-        );
+        return newFiles.filter((file, index, self) => index === self.findIndex((f) => f.name === file.name));
       });
 
       e.target.value = "";
     }
   }
 
+  useEffect(() => {
+    console.log("files: -", files);
+  }, [files]);
 
-  useEffect(()=>{
-    console.log("files: -", files)
-  },[files])
   return (
-    <Box
-      sx={{
-        flex: 1,
-        display: "flex",
-        justifyContent: "center",
-        // justifyItems:"center",
-        // alignContent:"center",
-        // alignItems:"center"
-        
-      }}
-    >
-      <Box
-        sx={{ width: "100%", maxWidth: 600 }}
-      >
-        <Typography variant="h2" textAlign="center">
-          Create Bot
-        </Typography>
-        <Box
-            sx={{
-                pt:5,
-                display:"flex",
-                flexDirection:"column"
-            }}
-            gap={3}
-        >
-            <TextField
-                onChange={(e)=>setBotName(e.target.value)}
-                label="Bot Name"
-                fullWidth
-                sx={{
-                }}
-            />
-
-            <TextField
-                onChange={(e)=>setDescription(e.target.value)}
-                label="Description"
-                fullWidth
-                multiline
-                rows={6}
-            />
-            <input
-              type="file"
-              accept=".pdf"
-              hidden
-              multiple
-              ref={inputRef}
-              onChange={handleFileChange}
-            />
-            {files.length >0 ?<MultipleFiles files={files} removeFile={removeFile} onAddMore={() => inputRef.current?.click()}/>:
-            
-            <Box
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={()=>inputRef.current?.click()}
-
-                sx={{
-                  border:dragging ?"2px solid #6366f1" :"1px solid rgba(255, 255, 255, 0.23)",
-                  height:350,
-                  borderRadius:1, 
-                  display:"flex",
-                  justifyContent:"center",
-                  alignItems:"center",
-
-                  cursor:"pointer",
-
-                  background:dragging?"rgba(99,102,241,0.08)" : "rgba(255,255,255,0.05)",   
-                  backdropFilter: "blur(10px)",         
-                  WebkitBackdropFilter: "blur(10px)",   
-                  flexDirection:"column"
-                }}
-            >
-              <IconButton sx={{}} disabled>
-                <AddToPhotosOutlinedIcon  sx={{fontSize:50 ,color:"rgba(255, 255, 255, 0.28)"}}/>
-              </IconButton>
-              
-              <Typography fontSize={15}>Drag & Drop file OR click here to Upload</Typography>
-            </Box>}
-            <Button 
-                variant="contained"
-                // color="secondary"
-                onClick={createButton}
-                disabled={isUploading}
-            > 
-                Create
-            </Button>
-
+    <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <Box sx={{ width: "100%", maxWidth: 720 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h5" sx={{ fontWeight: 600, mb: 0.5 }}>
+            Create Bot
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#9AA4B2" }}>
+            Define the bot, attach the source documents, and start indexing.
+          </Typography>
         </Box>
-        
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+          <TextField
+            onChange={(e) => setBotName(e.target.value)}
+            label="Bot Name"
+            fullWidth
+            value={botName}
+          />
+
+          <TextField
+            onChange={(e) => setDescription(e.target.value)}
+            label="Description"
+            fullWidth
+            multiline
+            rows={5}
+            value={description ?? ""}
+          />
+
+          <input type="file" accept=".pdf" hidden multiple ref={inputRef} onChange={handleFileChange} />
+
+          {files.length > 0 ? (
+            <MultipleFiles files={files} removeFile={removeFile} onAddMore={() => inputRef.current?.click()} />
+          ) : (
+            <Box
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => inputRef.current?.click()}
+              sx={{
+                border: dragging ? "1px solid #E4B72C" : "1px dashed #303744",
+                backgroundColor: dragging ? "rgba(228, 183, 44, 0.08)" : "#151920",
+                borderRadius: 2,
+                height: 220,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                cursor: "pointer",
+                transition: "border-color 0.2s ease, background-color 0.2s ease",
+              }}
+            >
+              <IconButton sx={{ pointerEvents: "none" }} disabled>
+                <AddToPhotosOutlinedIcon sx={{ fontSize: 44, color: "#9AA4B2" }} />
+              </IconButton>
+              <Typography sx={{ color: "#9AA4B2", textAlign: "center", px: 2 }}>
+                Drag & drop PDF files here or click to browse
+              </Typography>
+            </Box>
+          )}
+
+          <Box sx={{ display: "flex", justifyContent: "flex-end", pt: 1 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={createButton}
+              disabled={isUploading || !botName || files.length === 0}
+              sx={{ minWidth: 168 }}
+            >
+              {isUploading ? "Uploading..." : "Create Bot"}
+            </Button>
+          </Box>
+        </Box>
       </Box>
-      {success && 
-        <Snackbar
-          open={alert.open}
-          autoHideDuration={6000} 
-          onClose={handleClose}
-        >
-          <Alert
-                onClose={handleClose}
-                severity={alert.servirity}
-                variant="filled"
-                sx={{ width: '100%' }}
-          >
+
+      {success && (
+        <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity={alert.servirity} variant="filled" sx={{ width: "100%" }}>
             {alert.message}
           </Alert>
-        </Snackbar>}
+        </Snackbar>
+      )}
     </Box>
   );
 }
 
-function MultipleFiles(
-  {files,removeFile , onAddMore}:
-  { files:File[],
-    removeFile:(index:number)=>void,
-    onAddMore:()=>void }
-  ){
-
+function MultipleFiles({ files, removeFile, onAddMore }: { files: File[]; removeFile: (index: number) => void; onAddMore: () => void }) {
   return (
-<Box
-  sx={{
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(135px, 135px))",
-    justifyContent: "start",
-    gap: 2,
-    mt: 2,
-  }}
->
-  {files.map((f, index) => (
     <Box
-      key={`${f.name}-${index}`}
       sx={{
-        position: "relative",
-
-        width: 130,
-        minHeight: 130,
-
-        border: "1px solid rgba(255,255,255,0.1)",
-        borderRadius: "16px",
-
-        background: "rgba(255,255,255,0.04)",
-        backdropFilter: "blur(10px)",
-
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-
-        p: 1,
-
-        transition: "0.2s ease",
-
-        "&:hover": {
-          background: "rgba(255,255,255,0.07)",
-          transform: "translateY(-2px)",
-        },
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(132px, 1fr))",
+        gap: 1.5,
+        mt: 0.5,
       }}
     >
-      <IconButton
-        size="small"
-        sx={{
-          position: "absolute",
-          top: 6,
-          right: 6,
+      {files.map((f, index) => (
+        <Box
+          key={`${f.name}-${index}`}
+          sx={{
+            position: "relative",
+            width: "100%",
+            minHeight: 148,
+            border: "1px solid #303744",
+            borderRadius: 2,
+            backgroundColor: "#151920",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            p: 1.5,
+            gap: 1,
+            transition: "border-color 0.2s ease, background-color 0.2s ease",
+            "&:hover": {
+              borderColor: "#4B5568",
+              backgroundColor: "#1B2028",
+            },
+          }}
+        >
+          <IconButton
+            size="small"
+            sx={{
+              position: "absolute",
+              top: 6,
+              right: 6,
+              backgroundColor: "rgba(17, 24, 39, 0.8)",
+              border: "1px solid #303744",
+              "&:hover": { backgroundColor: "rgba(38, 45, 56, 0.9)" },
+            }}
+            onClick={() => removeFile(index)}
+          >
+            <CloseOutlinedIcon fontSize="small" />
+          </IconButton>
 
-          color: "rgba(255,255,255,0.6)",
+          <Box component="img" src={PdficonSVG} alt="pdf" sx={{ width: 40, height: 40, opacity: 0.9 }} />
 
-          "&:hover": {
-            color: "white",
-            background: "rgba(255,255,255,0.08)",
-          },
-        }}
-        onClick={() => removeFile(index)}
-      >
-        <CloseOutlinedIcon fontSize="small" />
-      </IconButton>
+          <Typography sx={{ fontSize: 12, textAlign: "center", wordBreak: "break-word", color: "#E8ECF2" }}>
+            {f.name}
+          </Typography>
+        </Box>
+      ))}
 
       <Box
-        component="img"
-        src={PdficonSVG}
-        alt="pdf"
+        onClick={onAddMore}
         sx={{
-          width: 50,
-          height: 50,
-          mb: 1,
-        }}
-      />
-
-      <Typography
-        fontSize={13}
-        textAlign="center"
-        sx={{
-          wordBreak: "break-word",
+          width: "100%",
+          minHeight: 148,
+          border: "1px dashed #303744",
+          borderRadius: 2,
+          backgroundColor: "#151920",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          transition: "border-color 0.2s ease, background-color 0.2s ease",
+          "&:hover": {
+            borderColor: "#E4B72C",
+            backgroundColor: "rgba(228, 183, 44, 0.04)",
+          },
         }}
       >
-        {f.name}
-      </Typography>
+        <AddToPhotosOutlinedIcon sx={{ fontSize: 34, color: "#9AA4B2" }} />
+        <Typography sx={{ mt: 1, fontSize: 12, color: "#9AA4B2" }}>Add More</Typography>
+      </Box>
     </Box>
-  ))}
-
-  <Box
-    onClick={onAddMore}
-    sx={{
-      width: 140,
-      minHeight: 140,
-
-      border: "1px dashed rgba(255,255,255,0.2)",
-      borderRadius: "16px",
-
-      background: "rgba(255,255,255,0.03)",
-
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-
-      cursor: "pointer",
-
-      transition: "0.2s ease",
-
-      "&:hover": {
-        background: "rgba(255,255,255,0.06)",
-        borderColor: "rgba(255,255,255,0.4)",
-      },
-    }}
-  >
-    <AddToPhotosOutlinedIcon
-      sx={{
-        fontSize: 45,
-        color: "rgba(255,255,255,0.5)",
-      }}
-    />
-
-    <Typography
-      fontSize={13}
-      sx={{
-        mt: 1,
-        color: "rgba(255,255,255,0.6)",
-      }}
-    >
-      Add More
-    </Typography>
-  </Box>
-</Box>  )
+  );
 }
