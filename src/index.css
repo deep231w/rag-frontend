@@ -1,12 +1,65 @@
 html {
   scroll-behavior: smooth;
+  background-color: #101318;
 }
 
 * {
   box-sizing: border-box;
 }
 
+:root {
+  color-scheme: dark;
+  --page-bg: #101318;
+  --surface: #1b2028;
+  --surface-alt: #151920;
+  --ink: #e8ecf2;
+  --ink-soft: #9aa4b2;
+  --ink-muted: #7a8496;
+  --border: #303744;
+  --accent: #e4b72c;
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Inter", "Manrope", sans-serif;
+  background: var(--page-bg);
+  color: var(--ink);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  background: var(--page-bg);
+}
+
+.landing-page-shell,
+.auth-shell {
+  min-height: 100vh;
+  color-scheme: light;
+}
+
+.landing-page-shell {
+  background: #f7f6f2;
+  color: #20241f;
+}
+
+.auth-shell {
+  background: #f3f6fb;
+  color: #0f172a;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(228, 183, 44, 0.2);
 }

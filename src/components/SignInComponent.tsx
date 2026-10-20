@@ -75,26 +75,26 @@ export default function SignInAuthComponent() {
           sx={{
             p: { xs: 3, sm: 4 },
             borderRadius: 3,
-            backgroundColor: "#1B2028",
-            border: "1px solid #303744",
-            boxShadow: "none",
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E2E8F0",
+            boxShadow: "0 12px 28px rgba(15, 23, 42, 0.08)",
           }}
         >
           <Stack spacing={2.5} component="form" onSubmit={handleSubmit} noValidate>
             <Box>
-              <Typography variant="caption" sx={{ color: "#9AA4B2", letterSpacing: 1.2, textTransform: "uppercase", fontWeight: 700 }}>
+              <Typography variant="caption" sx={{ color: "#475569", letterSpacing: 1.2, textTransform: "uppercase", fontWeight: 700 }}>
                 RAG Admin
               </Typography>
-              <Typography variant="h4" sx={{ mt: 1, fontWeight: 700, letterSpacing: "-0.05em" }}>
+              <Typography variant="h4" sx={{ mt: 1, fontWeight: 700, letterSpacing: "-0.05em", color: "#0F172A" }}>
                 Sign in to your workspace
               </Typography>
-              <Typography variant="body2" sx={{ mt: 1, color: "#9AA4B2", lineHeight: 1.6 }}>
+              <Typography variant="body2" sx={{ mt: 1, color: "#475569", lineHeight: 1.6 }}>
                 Access the RAG administration dashboard for bot management, document ingestion, and workspace configuration.
               </Typography>
             </Box>
 
             {error && (
-              <Alert severity="error" variant="outlined" sx={{ borderColor: "rgba(244, 67, 54, 0.5)", color: "#F8D7DA", backgroundColor: "rgba(244, 67, 54, 0.06)" }}>
+              <Alert severity="error" variant="outlined" sx={{ borderColor: "rgba(185, 28, 28, 0.18)", color: "#991B1B", backgroundColor: "rgba(254, 226, 226, 0.8)" }}>
                 {error}
               </Alert>
             )}
@@ -107,7 +107,7 @@ export default function SignInAuthComponent() {
               onChange={(e) => setEmail(e.target.value)}
               fullWidth
               required
-              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2, backgroundColor: "#FFFFFF", color: "#0F172A" } }}
             />
 
             <TextField
@@ -125,14 +125,14 @@ export default function SignInAuthComponent() {
                       aria-label={showPassword ? "Hide password" : "Show password"}
                       onClick={() => setShowPassword((prev) => !prev)}
                       edge="end"
-                      sx={{ color: "#9AA4B2" }}
+                      sx={{ color: "#475569" }}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
-              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2, backgroundColor: "#FFFFFF", color: "#0F172A" } }}
             />
 
             <Button
@@ -140,19 +140,19 @@ export default function SignInAuthComponent() {
               variant="contained"
               disabled={loading}
               sx={{
-                backgroundColor: "#E4B72C",
-                color: "#101318",
+                backgroundColor: "#315C45",
+                color: "#FFFFFF",
                 fontWeight: 700,
                 py: 1.25,
                 borderRadius: 2,
                 boxShadow: "none",
-                "&:hover": { backgroundColor: "#F0C94A" },
-                "&.Mui-disabled": { backgroundColor: "rgba(228, 183, 44, 0.4)", color: "rgba(16, 19, 24, 0.6)" },
+                "&:hover": { backgroundColor: "#284F3A" },
+                "&.Mui-disabled": { backgroundColor: "rgba(49, 92, 69, 0.35)", color: "rgba(255, 255, 255, 0.8)" },
               }}
             >
               {loading ? (
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
-                  <CircularProgress size={18} thickness={5} sx={{ color: "#101318" }} />
+                  <CircularProgress size={18} thickness={5} sx={{ color: "#FFFFFF" }} />
                   Signing in...
                 </Box>
               ) : (
@@ -160,9 +160,9 @@ export default function SignInAuthComponent() {
               )}
             </Button>
 
-            <Typography variant="body2" sx={{ textAlign: "center", color: "#9AA4B2" }}>
+            <Typography variant="body2" sx={{ textAlign: "center", color: "#475569" }}>
               Don’t have an account?{" "}
-              <Link href="/signup" underline="hover" sx={{ color: "#E4B72C", fontWeight: 600 }}>
+              <Link href="/signup" underline="hover" sx={{ color: "#315C45", fontWeight: 600 }}>
                 Create one
               </Link>
             </Typography>
