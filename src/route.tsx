@@ -9,6 +9,7 @@ import CreateBot from "./components/CreateBot";
 import ManageBots from "./components/ManageBots";
 import Settings from "./components/Settings";
 import { isAuthenticated } from "./auth";
+import LandingPage from "./pages/landingPage";
 
 const ProtectedRoute: React.FC<{ children: ReactElement }> = ({ children }) => {
   const location = useLocation();
@@ -37,7 +38,8 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={isAuthenticated() ? <Navigate to="/home/dashboard" replace /> : <Navigate to="/signin" replace />} />
+        {/* <Route path="/" element={isAuthenticated() ? <Navigate to="/home/dashboard" replace /> : <Navigate to="/signin" replace />} /> */}
+        <Route path="/" element={<LandingPage/>}/>
         <Route path="/signup" element={<PublicOnlyRoute><SignUp /></PublicOnlyRoute>} />
         <Route path="/signin" element={<PublicOnlyRoute><SignIn /></PublicOnlyRoute>} />
 
