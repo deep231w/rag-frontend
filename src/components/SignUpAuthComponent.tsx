@@ -29,6 +29,7 @@ export default function SignUpAuthComponent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showDisclaimerServerLOading, setShowDisclaimerServerLOading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -66,6 +67,11 @@ export default function SignUpAuthComponent() {
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
+    setShowDisclaimerServerLOading(false);
+
+    const disclaimerTimer = window.setTimeout(() => {
+      setShowDisclaimerServerLOading(true);
+    }, 2000);
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/admin/signup`, {
@@ -89,12 +95,14 @@ export default function SignUpAuthComponent() {
       const fallback = err?.message || "Unable to create your account right now.";
       setError(serverMessage || fallback);
     } finally {
+      clearTimeout(disclaimerTimer);
       setLoading(false);
+      setShowDisclaimerServerLOading(false);
     }
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", px: 2, py: 4 }}>
+    <Box sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", px: 2, py: 4, position: "relative" }}>
       <Container maxWidth="sm">
         <Paper
           elevation={0}
@@ -245,6 +253,45 @@ export default function SignUpAuthComponent() {
           </Stack>
         </Paper>
       </Container>
+
+      {showDisclaimerServerLOading && (
+        <Box
+          sx={{
+            position: "fixed",
+            left: "50%",
+            bottom: { xs: 16, sm: 24 },
+            transform: "translateX(-50%)",
+            width: "min(92vw, 560px)",
+            zIndex: 1500,
+            px: 1,
+            pointerEvents: "none",
+          }}
+        >
+          <Alert
+            severity="warning"
+            variant="filled"
+            sx={{
+              borderRadius: 2,
+              background: "linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%)",
+              color: "#7F1D1D",
+              border: "1px solid rgba(153, 27, 27, 0.22)",
+              boxShadow: "0 12px 24px rgba(127, 29, 29, 0.14)",
+              alignItems: "center",
+              "& .MuiAlert-icon": { color: "#DC2626" },
+              "& .MuiAlert-message": { color: "#7F1D1D" },
+            }}
+          >
+            <Stack spacing={0.25}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, letterSpacing: 0.4, color: "#7F1D1D" }}>
+                Server wake-up notice
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#7F1D1D", lineHeight: 1.5 }}>
+                The backend is hosted on Render and may sleep when inactive. It can take a little time to wake up before account creation completes.
+              </Typography>
+            </Stack>
+          </Alert>
+        </Box>
+      )}
     </Box>
   );
 }
