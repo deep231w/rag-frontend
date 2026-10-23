@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import CustomDrawer from "./CustomDrawer";
+// import CustomDrawer from "./botSecDrawer";
+import BotSecDrawer from "./botSecDrawer";
 import { PdfViewer } from "./PdfViewer";
 import BotIcon from "../assets/icons/BotIcon";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
@@ -113,7 +114,7 @@ export default function ManageBots() {
   function BotCLick(bot: any) {
     setIsDrawer(!isDrawer);
     setDrawerContent(
-      <CustomDrawer
+      <BotSecDrawer
         bot={bot}
         onClose={() => setDrawerContent(null)}
         isOpenPdf={() => setIsPdfViewerOpen(true)}

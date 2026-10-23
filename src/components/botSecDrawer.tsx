@@ -11,7 +11,7 @@ type FileType = {
     url: string;
 };
 
-export default function CustomDrawer(
+export default function BotSecDrawer(
     {
         bot ,
         onClose ,
