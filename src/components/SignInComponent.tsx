@@ -107,7 +107,7 @@ export default function SignInAuthComponent() {
               onChange={(e) => setEmail(e.target.value)}
               fullWidth
               required
-              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2, backgroundColor: "#FFFFFF", color: "#0F172A" } }}
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2, backgroundColor: "#FFFFFF", color: "#0F172A" },     "& .MuiOutlinedInput-input": {color: "#000000",}, }}
             />
 
             <TextField
@@ -132,7 +132,7 @@ export default function SignInAuthComponent() {
                   </InputAdornment>
                 ),
               }}
-              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2, backgroundColor: "#FFFFFF", color: "#0F172A" } }}
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2, backgroundColor: "#FFFFFF", color: "#0F172A" },    "& .MuiOutlinedInput-input": {color: "#000000",}, }}
             />
 
             <Button
